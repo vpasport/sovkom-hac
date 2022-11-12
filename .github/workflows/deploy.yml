@@ -45,6 +45,8 @@ jobs:
           cd /var/www/sovkom-hac-client
           git pull origin main
           git status
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
           npm ci
           npm run build
           pm2 restart sovkom-hac-clien
