@@ -29,6 +29,10 @@ jobs:
     - run: npm ci
     - run: npm run build
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       with:
@@ -37,7 +41,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         script: |
-          cd /var/www/svkom-hac-client
+          cd /var/www/sovkom-hac-client
           git pull origin main
           git status
           npm ci
