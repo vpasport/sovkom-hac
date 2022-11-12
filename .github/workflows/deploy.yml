@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: React app
+name: React app CI
 
 on:
   push:
@@ -21,11 +21,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: react ${{ matrix.node-version }}
+    - name: react test buid ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
     - run: npm run build
-    - run: npm run start
+
+    - name: Deploy using ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd /var/www/svkom-hac-client
+          git pull origin main
+          git status
+          npm ci
+          npm run build
+          pm2 restart sovkom-hac-clien
