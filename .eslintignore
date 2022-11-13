@@ -1,0 +1,9 @@
+public
+src/setupProxy.js
+webpack.config.js
+next.config.js
+**/*.json
+**/*.module.scss
+**/node_modules/*
+**/out/*
+**/.next/*

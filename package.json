@@ -6,7 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint:check": "eslint ./ --ext js,jsx,ts,tsx",
+    "lint:fix": "eslint ./ --ext js,jsx,ts,tsx --fix",
+    "lint:css": "stylelint ./",
+    "lint:css:fix": "npm run lint:css -- --fix",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{css,scss}": "stylelint --fix",
+    "**/*.{js,jsx,ts,tsx}": "prettier --write"
   },
   "dependencies": {
     "eslint": "8.27.0",
@@ -14,5 +27,19 @@
     "next": "13.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "stylelint": "^14.15.0",
+    "stylelint-config-clean-order": "^2.1.0",
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-standard-scss": "^6.1.0",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.3"
   }
 }
