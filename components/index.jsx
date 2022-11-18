@@ -1,6 +1,7 @@
 export * as Blocks from './Blocks';
 export { Button } from './Button';
 export { Input } from './Input';
+export { Table } from './Table';
 export * as Forms from './Forms';
 export { CustomImage } from './Image';
 export { Island } from './Island';
