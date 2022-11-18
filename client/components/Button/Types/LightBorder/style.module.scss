@@ -1,0 +1,8 @@
+@import "../style.module";
+
+.button {
+    font-weight: 600;
+    color: $light_blue;
+    background-color: rgba($color: $light_blue, $alpha: 50%);
+    border-color: $light_blue;
+}

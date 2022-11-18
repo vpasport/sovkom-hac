@@ -1,0 +1,30 @@
+@import "../../styles/variables";
+
+.root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    
+    &_signup {
+        margin: 200px 0;
+    }
+
+    & .icon {
+        width: 400px;
+        height: 400px;
+        transition: all 0.3s;
+
+        &_mini {
+            width: 250px;
+            height: 250px;
+        }
+    }
+
+    & .link {
+        color: $light_blue;
+    }
+}
