@@ -1,0 +1,28 @@
+@import "../../../../styles/variables";
+
+.popup-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+
+    &_circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 96px;
+        height: 96px;
+
+        background: $light_red;
+        border-radius: 50%;
+    }
+
+    &_description {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 40px;
+    }
+}

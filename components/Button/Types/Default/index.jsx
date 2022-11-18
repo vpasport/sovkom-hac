@@ -8,18 +8,16 @@ const DefaultButon = ({
   leftIcon: LeftIcon = null,
   rightIcon: RightIcon = null,
   ...props
-}) => {
-  return (
-    <button
-      onClick={onClick}
-      className={toClassName(styles.button, className)}
-      {...props}
-    >
-      {!!LeftIcon && <LeftIcon />}
-      {!!children && children}
-      {!!RightIcon && <RightIcon />}
-    </button>
-  );
-};
+}) => (
+  <button
+    onClick={onClick}
+    className={toClassName(styles.button, className)}
+    {...props}
+  >
+    {!!LeftIcon && <LeftIcon />}
+    {!!children && children}
+    {!!RightIcon && <RightIcon />}
+  </button>
+);
 
 export { DefaultButon };

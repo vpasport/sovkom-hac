@@ -1,0 +1,68 @@
+@import "../style.module";
+
+.menu-item {
+    position: relative;
+
+    overflow: hidden;
+    display: flex;
+
+    // justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 220px;
+    min-width: 55px;
+    height: 55px;
+    padding: 15px;
+
+    border-radius: 12px;
+
+    transition: all 0.2s;
+
+    // background-color: red;
+    &-icon {
+        position: absolute;
+        left: 12.5px;
+
+        width: 30px;
+        height: 30px;
+
+        color: rgba($color: #fff, $alpha: 80%);
+
+        transition: all 0.2s;
+    }
+
+    & span {
+        position: absolute;
+        left: 55px;
+        color: #fff;
+        visibility: hidden;
+    }
+
+    &__full {
+        gap: 10px;
+        font-weight: 600;
+
+        // justify-content: flex-start;
+        & span {
+            visibility: visible;
+        }
+    }
+
+    &__selected {
+        // box-shadow: 0 0px 2px 1px rgba($color: #ffffff, $alpha: 0.5);
+        background-color: rgba($color: #fff, $alpha: 30%);
+        box-shadow: 0 0 2px 0.5px rgba($color: #fff, $alpha: 50%);
+
+        & .menu-item-icon {
+            // color: rgba($color: rgb(0, 4, 255), $alpha: 0.8);
+            color: rgba($color: #ffdb0d, $alpha: 80%);
+        }
+    }
+
+    &:hover {
+        background-color: rgba($color: #fff, $alpha: 10%);
+        box-shadow: 0 0 2px 1px rgba($color: #fff, $alpha: 10%);
+    }
+}

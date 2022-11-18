@@ -3,8 +3,7 @@
  * @param  {...any} args
  * @returns
  */
-const toClassName = (...args) => {
-  return args.filter((el) => typeof el === 'string').join(' ');
-};
+const toClassName = (...args) =>
+  args.filter((el) => typeof el === 'string').join(' ');
 
 export { toClassName };

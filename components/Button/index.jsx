@@ -3,11 +3,18 @@ import PropTypes from 'prop-types';
 
 import * as buttonTypes from './Types';
 
-const Button = ({ type = 'button', defaulttype = 'button', ...props }) => {
-  return React.createElement(buttonTypes[type], {
+const Button = ({ type, defaulttype, ...props }) =>
+  React.createElement(buttonTypes[type], {
     ...props,
     type: defaulttype,
   });
+
+Button.defaultProps = {
+  type: 'button',
+  defaulttype: 'button',
+  onClick: () => {},
+  rightIcon: () => null,
+  leftIcon: () => null,
 };
 
 Button.propTypes = {
@@ -15,6 +22,7 @@ Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
     .isRequired,
   onClick: PropTypes.func,
+  defaulttype: PropTypes.string,
   rightIcon: PropTypes.func,
   leftIcon: PropTypes.func,
 };

@@ -1,0 +1,19 @@
+@import "../../styles/variables";
+
+.root {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    padding: 40px;
+
+    & .button {
+        color: $light_blue;
+        border-color: $light_blue;
+    }
+}
+
+.custom-notification {
+    color: $light_blue;
+}

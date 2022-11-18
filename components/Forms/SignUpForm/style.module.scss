@@ -1,0 +1,57 @@
+@import "../../../styles/variables";
+
+.form {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    width: 700px;
+
+    &-loader-container {
+        position: absolute;
+        z-index: 1;
+        top: -10px;
+        left: -10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: calc(100% + 20px);
+        height: calc(100% + 20px);
+
+        backdrop-filter: blur(5px);
+    }
+
+    &-input-container {
+        width: 100%;
+
+        &-editor {
+            border: 2px solid $light_blue;
+            border-radius: 4px;
+        }
+
+        &-input {
+            width: 100%;
+
+            // border: 2px solid $light_blue;
+            border-radius: 4px;
+
+            &_error {
+                border-color: $red;
+
+                // border: 2px solid $red;
+            }
+        }
+    }
+
+    &-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        width: 250px;
+    }
+}

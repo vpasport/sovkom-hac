@@ -4,7 +4,9 @@
     "stylelint-config-clean-order",
     "stylelint-config-prettier"
   ],
-  "plugins": ["stylelint-order"],
+  "plugins": [
+    "stylelint-order"
+  ],
   "rules": {
     "no-empty-source": null,
     "value-keyword-case": null,
@@ -27,7 +29,19 @@
     "declaration-block-no-redundant-longhand-properties": [
       true,
       {
-        "ignoreShorthands": ["flex", "/border/"]
+        "ignoreShorthands": [
+          "flex",
+          "flex-flow",
+          "/border/"
+        ]
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": [
+          "moz-selection"
+        ]
       }
     ]
   }

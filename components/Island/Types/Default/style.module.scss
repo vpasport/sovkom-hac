@@ -1,0 +1,38 @@
+@import "../style.module";
+
+.island {
+    background: rgba($color: $light_blue, $alpha: 20%);
+
+    &_progress {
+        z-index: 1;
+        background-color: rgba($color: $light_blue, $alpha: 20%);
+    }
+
+    &_circle {
+        background-color: rgba($color: $light_blue, $alpha: 80%);
+    }
+
+    &_content {
+        &_text {
+            &_header {
+                color: $light_blue;
+            }
+
+            &_description {
+                color: $black;
+            }
+        }
+
+        &_footer {
+            &_button {
+                font-weight: 600;
+                color: $light_blue;
+                border-color: $light_blue;
+            }
+
+            &_price {
+                color: $light_blue;
+            }
+        }
+    }
+}
