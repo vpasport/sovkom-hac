@@ -14,14 +14,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && next lint"
     }
   },
   "lint-staged": {
     "**/*.{css,scss}": "stylelint --fix",
-    "**/*.{js,jsx,ts,tsx}": [
-      "prettier --write"
-    ]
+    "**/*.{js,jsx,ts,tsx}": "prettier --write"
   },
   "dependencies": {
     "@lexical/react": "^0.6.0",
