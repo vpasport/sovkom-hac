@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import * as IslandTypes from './Types';
 
-const Island = ({ type = 'default', ...props }) =>
+const Island = ({ type = 'standart', ...props }) =>
   React.createElement(IslandTypes[type], props);
 
 Island.propTypes = {
