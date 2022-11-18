@@ -14,7 +14,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npx next lint"
+      "pre-commit": "npx next lint && lint-staged"
     }
   },
   "lint-staged": {
