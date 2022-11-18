@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import styles from '../styles/Home.module.css';
 import { Button } from '@components/Button';
+
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
   return (
@@ -32,7 +33,7 @@ export default function Home() {
           <code className={styles.code}>pages/index.js</code>
         </p>
 
-        <Button type="border">I'm a button</Button>
+        <Button>I&apos;m a button</Button>
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h2>Documentation &rarr;</h2>

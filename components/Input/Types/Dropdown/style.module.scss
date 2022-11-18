@@ -1,0 +1,10 @@
+@import '../../../../styles/variables';
+
+.dropdown {
+    width: 100%;
+
+    &_label {
+        margin: 0 0 15px;
+        font-weight: 500;
+    }
+}

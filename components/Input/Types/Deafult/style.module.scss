@@ -1,0 +1,91 @@
+@import "../../../../styles/variables";
+
+.input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 44px;
+    padding: 10px 16px;
+
+    background: $white;
+    border: 2px solid rgb(23 112 255);
+    border-radius: 4px;
+    outline: none;
+
+    &_icon {
+        &__right {
+            box-sizing: border-box;
+            margin-left: 10px;
+            font-size: 20px;
+        }
+
+        &__left {
+            box-sizing: border-box;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+    }
+
+    &_description {
+        position: absolute;
+        top: 38px;
+
+        margin: 10px 0 0;
+
+        font-size: 12px;
+        color: $red;
+    }
+
+    & input {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+
+        background: $white;
+        border: none;
+        outline: none;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            margin: 0;
+
+            appearance: none;
+        }
+
+        &[type="number"] {
+            appearance: textfield;
+        }
+
+        &:disabled {
+            cursor: auto;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        // box-shadow: $box-shadow-input-hover;
+    }
+
+    &.disabled {
+        cursor: auto;
+        box-shadow: $box-shadow-input;
+    }
+
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-size: 12px;
+    }
+}
+
+.wrapper {
+    position: relative;
+    height: 50px;
+}

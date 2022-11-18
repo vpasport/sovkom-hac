@@ -1,0 +1,57 @@
+@import "../../styles/variables";
+
+.menu {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 80px;
+    height: 100%;
+    padding: 20px 0;
+
+    background: $menu_gradient;
+    border-left: solid 1px rgba($color: #000, $alpha: 40%);
+    box-shadow: 0 5px 5px rgba($color: #000, $alpha: 40%);
+
+    transition: width 0.3s ease-in-out;
+
+    &_hidden {
+        display: none;
+    }
+
+    &-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        width: 100%;
+        min-width: 55px;
+        padding: 12px;
+
+        color: #fff;
+
+        &-icon {
+            width: 35px;
+            height: 35px;
+        }
+    }
+
+    &-items {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    &-avatar {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0 10px;
+    }
+}

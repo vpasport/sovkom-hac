@@ -2,6 +2,22 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@components", "./components"],
+          ["@contexts", "./contexts"],
+          ["@store", "./store"],
+          ["@styles", "./styles"],
+          ["@api", "./api"],
+          ["@pages", "./pages"],
+          ["@hooks", "./hooks"],
+          ["@utils", "./utils"],
+          ["@public", "./public"]
+        ],
+        "extensions": [".ts", ".js", ".jsx", ".json"]
+      }
     }
   },
   "env": {
@@ -28,11 +44,31 @@
   },
   "plugins": ["jsx-a11y", "prettier"],
   "rules": {
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "react/jsx-closing-bracket-location": "warn",
+    "object-curly-newline": "off",
+    "object-curly-newline": "off",
+    "react/jsx-curly-newline": "warn",
+    "operator-linebreak": "off",
+    "import/no-cycle": "warn",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-no-useless-fragment": "off",
-    "react/jsx-props-no-spreading": "warn",
+    // "react/jsx-props-no-spreading": "warn",
     "react/jsx-one-expression-per-line": "off",
+    "react/require-default-props": "warn",
+    "arrow-body-style": ["warn", "as-needed"],
+    "implicit-arrow-linebreak": "off",
+    "react/button-has-type": "warn",
+    "react/jsx-props-no-spreading": [
+      1,
+      {
+        "html": "ignore",
+        "custom": "enforce",
+        "explicitSpread": "enforce"
+      }
+    ],
     "react/function-component-definition": [
       1,
       {
