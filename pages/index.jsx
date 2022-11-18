@@ -1,16 +1,11 @@
 import Head from 'next/head';
 import Image from 'next/image';
 
-import { useState } from 'react';
-
 import { Button } from '@components/Button';
-import { Input } from '@components';
 
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
-  const [date, setDate] = useState(null);
-
   return (
     <div className={styles.container}>
       <Head>
@@ -40,7 +35,7 @@ export default function Home() {
         </p>
 
         <Button>I&apos;m a button</Button>
-        <Input type="date" value={date} onChange={(e) => setDate(e.value)} />
+
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h2>Documentation &rarr;</h2>
