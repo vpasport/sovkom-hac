@@ -1,5 +1,4 @@
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { Button, Forms, Svg } from '@components';
 import * as UsetService from '@api/user';
@@ -11,8 +10,6 @@ const LoginPage = () => {
   const [signup, setSignup] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-
   const onLogin = useCallback((data) => {
     setLoading(true);
     UsetService.signIn(data)
@@ -20,7 +17,7 @@ const LoginPage = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const onSignup = useCallback((data) => {}, []);
+  const onSignup = useCallback(() => {}, []);
 
   return (
     <div className={toClassName(styles.root, signup && styles.root_signup)}>

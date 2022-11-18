@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint:check": "eslint ./ --ext js,jsx,ts,tsx",
-    "lint:fix": "eslint ./ --ext js,jsx,ts,tsx --fix",
+    "lint:check": "next lint",
+    "lint:fix": "next lint --fix",
     "lint:css": "stylelint ./",
     "lint:css:fix": "npm run lint:css -- --fix",
     "prepare": "husky install"
