@@ -2,7 +2,7 @@ import Select from 'react-select';
 
 import styles from './style.module.scss';
 
-const DropdownInput = ({ dropdownName, multiple, items }) => {
+const DropdownInput = ({ dropdownName, multiple, items, onChange = () => {} }) => {
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
@@ -53,7 +53,7 @@ const DropdownInput = ({ dropdownName, multiple, items }) => {
   return (
     <div className={styles.dropdown}>
       <p className={styles.dropdown_label}>{dropdownName}</p>
-      <Select styles={customStyles} isMulti={multiple} options={items} />
+      <Select styles={customStyles} isMulti={multiple} options={items} onChange={onChange} />
     </div>
   );
 };
