@@ -16,10 +16,9 @@ import styles from './styles.module.scss';
 
 const Table = ({ columns = [], items = [], updatedRow }) => {
   function changeStatus(data, prop, value) {
-    console.log(value);
     const newData = data;
     newData[prop] = value;
-    console.log(newData);
+
     updatedRow(newData);
   }
 
