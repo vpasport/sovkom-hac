@@ -25,6 +25,7 @@ const DropdownInput = ({ dropdownName, multiple, items, onChange = () => {} }) =
       minHeight: 44,
       boxShadow: '0px 2px 13px rgb(51 51 51 / 10%)',
       appearance: 'none',
+      border: '2px solid rgb(23, 112, 255)',
     }),
     multiValue: (styles) => ({
       ...styles,
