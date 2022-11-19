@@ -1,15 +1,15 @@
-@import '../../styles/variables';
+@import '../../styles//variables.scss';
 
 .table {
     box-shadow: $box-shadow-1;
 
     &_btn {
         &__block {
-            background-color: rgb(234 35 35);
+            background-color: $red;
         }
 
         &__unblock {
-            background-color: rgb(117 225 51);
+            background-color: $green;
         }
     }
 
