@@ -15,10 +15,11 @@ const SignUpForm = ({ onSubmit = () => {}, onCancel = () => {}, loading = false 
       password: '',
       passwordRepit: '',
       firstName: '',
-      patronymic: '',
+      secondName: '',
       lastName: '',
       email: '',
       date: null,
+      codeWord: '',
     },
     validate: (data) => {
       const error = {};
@@ -29,8 +30,8 @@ const SignUpForm = ({ onSubmit = () => {}, onCancel = () => {}, loading = false 
       if (!data.firstName) {
         error.firstName = 'Некорректное имя';
       }
-      if (!data.patronymic) {
-        error.patronymic = 'Некорректное отчество';
+      if (!data.secondName) {
+        error.secondName = 'Некорректное отчество';
       }
       if (!data.lastName) {
         error.lastName = 'Некорректная фамилия';
@@ -43,6 +44,9 @@ const SignUpForm = ({ onSubmit = () => {}, onCancel = () => {}, loading = false 
         )
       ) {
         error.email = 'Некорректный email';
+      }
+      if (!data.codeWord) {
+        error.email = 'Введите котовое слово';
       }
       if (data.password !== data.passwordRepit) {
         error.password = 'Пароли не совпадают';
@@ -57,7 +61,19 @@ const SignUpForm = ({ onSubmit = () => {}, onCancel = () => {}, loading = false 
 
       return error;
     },
-    onSubmit: (data) => onSubmit({ ...data, date: moment(data.date).utcOffset(0, true).format() }),
+    onSubmit: (data) =>
+      onSubmit({
+        login: data.login,
+        password: data.password,
+        additionalFields: {
+          lastName: data.lastName,
+          firstName: data.firstName,
+          secondName: data.secondName,
+          codeWord: data.codeWord,
+          email: data.email,
+          dateOfBirth: moment(data.date).utcOffset(0, true).format(),
+        },
+      }),
   });
 
   return (
@@ -105,28 +121,14 @@ const SignUpForm = ({ onSubmit = () => {}, onCancel = () => {}, loading = false 
         <Input
           className={toClassName(
             styles['form-input-container-input'],
-            formik.errors.patronymic && styles['form-input-container-input_error'],
+            formik.errors.secondName && styles['form-input-container-input_error'],
           )}
           typedefault="text"
           placeholder="Отчество"
-          name="patronymic"
-          value={formik.values.patronymic}
+          name="secondName"
+          value={formik.values.secondName}
           onChange={formik.handleChange}
-          description={formik.errors.patronymic}
-        />
-      </div>
-      <div className={styles['form-input-container']}>
-        <Input
-          className={toClassName(
-            styles['form-input-container-input'],
-            formik.errors.lastName && styles['form-input-container-input_error'],
-          )}
-          typedefault="text"
-          placeholder="Фамилия"
-          name="lastName"
-          value={formik.values.lastName}
-          onChange={formik.handleChange}
-          description={formik.errors.lastName}
+          description={formik.errors.secondName}
         />
       </div>
       <div className={styles['form-input-container']}>
@@ -155,6 +157,19 @@ const SignUpForm = ({ onSubmit = () => {}, onCancel = () => {}, loading = false 
           value={formik.values.email}
           onChange={formik.handleChange}
           description={formik.errors.email}
+        />
+      </div>
+      <div className={styles['form-input-container']}>
+        <Input
+          className={toClassName(
+            styles['form-input-container-input'],
+            formik.errors.codeWord && styles['form-input-container-input_error'],
+          )}
+          placeholder="Кодовое слово"
+          name="codeWord"
+          value={formik.values.codeWord}
+          onChange={formik.handleChange}
+          description={formik.errors.codeWord}
         />
       </div>
       <div className={styles['form-input-container']}>
