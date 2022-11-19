@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as notificationTypes from './Types';
 
-const Notification = ({ type = 'default', ...props }) =>
+const Notification = ({ type = 'standart', ...props }) =>
   React.createElement(notificationTypes[type], props);
 
 Notification.propTypes = {
