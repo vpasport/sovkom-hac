@@ -16,7 +16,8 @@
       "@utils/*": ["utils/*"],
       "@utils": ["utils"],
       "@public/*": ["public/*"],
-      "@public": ["public"]
+      "@public": ["public"],
+      "@mocks/*": ["mocks/*"]
     }
   }
 }

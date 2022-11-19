@@ -92,6 +92,48 @@ export const getServerSideProps = async ({
           value: 18,
           createdAt: moment().format(),
         },
+        {
+          id: uuid(),
+          number: uuid(),
+          currency: 'RUB',
+          value: 1000,
+          createdAt: moment().format(),
+        },
+        {
+          id: uuid(),
+          number: uuid(),
+          currency: 'EUR',
+          value: 20,
+          createdAt: moment().format(),
+        },
+        {
+          id: uuid(),
+          number: uuid(),
+          currency: 'USD',
+          value: 18,
+          createdAt: moment().format(),
+        },
+        {
+          id: uuid(),
+          number: uuid(),
+          currency: 'RUB',
+          value: 1000,
+          createdAt: moment().format(),
+        },
+        {
+          id: uuid(),
+          number: uuid(),
+          currency: 'EUR',
+          value: 20,
+          createdAt: moment().format(),
+        },
+        {
+          id: uuid(),
+          number: uuid(),
+          currency: 'USD',
+          value: 18,
+          createdAt: moment().format(),
+        },
       ];
 
       if (me) {
