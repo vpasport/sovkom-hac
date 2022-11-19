@@ -1,0 +1,23 @@
+@import '../../styles/variables';
+
+.currency-settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 30%;
+    padding: 15px 25px;
+
+    border-radius: 12px;
+    box-shadow: $box-shadow-1;
+
+    &_btn--stop {
+        width: 60%;
+        background-color: $red;
+    }
+
+    &_btn--start {
+        width: 60%;
+        background-color: $green;
+    }
+}
