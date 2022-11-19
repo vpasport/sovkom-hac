@@ -1,5 +1,7 @@
 import React from 'react';
 
+import moment from 'moment';
+
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
@@ -12,15 +14,13 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import styles from './styles.module.scss';
 
-const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
-  const changeStatus = (data, prop, value) => {
+const Table = ({ columns = [], items = [], updatedRow }) => {
+  function changeStatus(data, prop, value) {
     const newData = data;
-
-    updatedRow(newData);
     newData[prop] = value;
 
-    return toggle(items);
-  };
+    updatedRow(newData);
+  }
 
   const verifiedBodyTemplate = (rowData) => (
     <div className={styles.table_column__icon}>
@@ -37,12 +37,12 @@ const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
     <>
       {/* eslint-disable  */}
       {!rowData.verify ? (
-        <Button onClick={() => changeStatus(rowData, 'verify', true)}>Подтвердить</Button>
-      ) : !rowData.blocked ? (
+        <Button onClick={() => changeStatus(rowData, 'verify', 1)}>Подтвердить</Button>
+      ) : !rowData.deletedAt ? (
         <Popup
           type="confirm"
           button="button"
-          confirm={(val) => changeStatus(rowData, 'blocked', val)}
+          confirm={(val) => changeStatus(rowData, 'deletedAt', moment().format())}
           buttonText="Блокировать"
           buttonPopupConfirm="Да"
           buttonPopupDelete="Отмена"
@@ -54,7 +54,7 @@ const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
       ) : (
         <Button
           className={styles.table_btn__unblock}
-          onClick={() => changeStatus(rowData, 'blocked', false)}
+          onClick={() => changeStatus(rowData, 'deletedAt', null)}
         >
           Разблокировать
         </Button>
@@ -64,7 +64,7 @@ const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
   );
 
   const typeData = (field) => {
-    if (field === 'verify' || field === 'blocked') {
+    if (field === 'verify' || field === 'deletedAt') {
       return 'boolean';
     }
     return 'string';
@@ -72,7 +72,7 @@ const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
 
   const bodyRow = (field) => {
     if (field === 'verify') return verifiedBodyTemplate;
-    if (field === 'blocked') return actionBodyTemplate;
+    if (field === 'deletedAt') return actionBodyTemplate;
 
     return '';
   };
