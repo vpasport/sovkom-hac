@@ -1,1 +1,0 @@
-export { toClassName } from './toClassName';

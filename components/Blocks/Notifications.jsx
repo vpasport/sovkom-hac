@@ -25,8 +25,7 @@ const NotificationsBlock = () => {
             header: 'Header',
             description: new Date().toISOString(),
             onClose: () => console.log('close default'),
-          })
-        }
+          })}
       >
         Показать Default
       </Button>
@@ -39,8 +38,7 @@ const NotificationsBlock = () => {
             header: 'Header',
             description: new Date().toISOString(),
             onClose: () => console.log('close warning'),
-          })
-        }
+          })}
       >
         Показать Warning
       </Button>
@@ -53,8 +51,7 @@ const NotificationsBlock = () => {
             header: 'Header',
             description: new Date().toISOString(),
             onClose: () => console.log('close success'),
-          })
-        }
+          })}
       >
         Показать Success
       </Button>
@@ -67,8 +64,7 @@ const NotificationsBlock = () => {
             header: 'Header',
             description: new Date().toISOString(),
             onClose: () => console.log('close error'),
-          })
-        }
+          })}
       >
         Показать Error
       </Button>
@@ -81,8 +77,7 @@ const NotificationsBlock = () => {
             custom: <span>Это кастомный компонет</span>,
             onClose: () => console.log('close custom'),
             className: styles['custom-notification'],
-          })
-        }
+          })}
       >
         Показать Custom
       </Button>
