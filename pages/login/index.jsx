@@ -34,7 +34,7 @@ const LoginPage = () => {
         pushNotifications({
           type: 'error',
           header: 'Ошибка',
-          description: err.response.data.message,
+          description: err.response?.data?.message,
         });
         console.error(err);
       })
@@ -59,7 +59,7 @@ const LoginPage = () => {
         pushNotifications({
           type: 'error',
           header: 'Ошибка',
-          description: err.response.data.message,
+          description: err.response?.data?.message,
         });
         console.error(err);
       })

@@ -33,6 +33,19 @@
     }
   }
 
+  &-buttons {
+    float: row;
+    display: flex;
+    gap: 12px;
+  }
+
+  &_not-hover {
+    &.account:hover {
+      transform: none;
+      box-shadow: $box-shadow-1;
+    }
+  }
+
   &:hover {
     cursor: pointer;
     transform: translateY(-2px);
