@@ -12,3 +12,4 @@ export { Popup } from './Popup';
 export { Svg } from './Svg';
 export { TextEditor, TextViewer } from './TextEditor';
 export { ToolBar } from './Toolbar';
+export { Users } from './Users';
