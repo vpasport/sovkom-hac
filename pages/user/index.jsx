@@ -1,15 +1,12 @@
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
-import moment from 'moment';
-import { v4 as uuid } from 'uuid';
-
 import { UserInfo, Button, Account } from '@components';
 import { checkUser } from '@middlewares';
 
 import styles from './style.module.scss';
 
-const User = ({ user = {}, accounts = [] }) => {
+const User = ({ user = {} }) => {
   const router = useRouter();
 
   const onAccountAdd = useCallback(() => {
@@ -23,14 +20,18 @@ const User = ({ user = {}, accounts = [] }) => {
     [router],
   );
 
+  const onAccountDelete = useCallback((id) => {
+    console.log(id);
+  }, []);
+
   return (
     <div className={styles['user-page']}>
       <UserInfo
-        firstName={user.firstName}
-        patronymic={user.patronymic}
-        lastName={user.lastName}
+        firstName={user.additionalFields.firstName}
+        patronymic={user.additionalFields.secondName}
+        lastName={user.additionalFields.lastName}
         login={user.login}
-        email={user.email}
+        email={user.additionalFields.email}
       />
       <div className={styles['user-page-accounts']}>
         <div className={styles['user-page-accounts-header']}>
@@ -39,14 +40,15 @@ const User = ({ user = {}, accounts = [] }) => {
             Добавить
           </Button>
         </div>
-        {accounts.map((el) => (
+        {user.userScore.map((el) => (
           <Account
-            key={el.id}
-            id={el.id}
-            number={el.number}
+            key={el.uuid}
+            id={el.uuid}
+            number={el.uuid}
             currency={el.currency}
             value={el.value}
             onClick={onAccountClick}
+            onDelete={onAccountDelete}
           />
         ))}
       </div>
@@ -57,100 +59,11 @@ const User = ({ user = {}, accounts = [] }) => {
 export const getServerSideProps = (ctx) =>
   checkUser(
     ctx,
-    async ({
-      req: {
-        headers: { cookie },
+    async ({ user }) => ({
+      props: {
+        user,
       },
-    }) => {
-      console.log(1, cookie);
-
-      if (cookie) {
-        const me = {
-          login: 'user',
-          firstName: 'Иван',
-          patronymic: 'Иванович',
-          lastName: 'Иванов',
-          email: 'ivanov@mail.com',
-          date: moment().utcOffset(0, true).format(),
-        };
-
-        const accounts = [
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'RUB',
-            value: 1000,
-            createdAt: moment().format(),
-          },
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'EUR',
-            value: 20,
-            createdAt: moment().format(),
-          },
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'USD',
-            value: 18,
-            createdAt: moment().format(),
-          },
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'RUB',
-            value: 1000,
-            createdAt: moment().format(),
-          },
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'EUR',
-            value: 20,
-            createdAt: moment().format(),
-          },
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'USD',
-            value: 18,
-            createdAt: moment().format(),
-          },
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'RUB',
-            value: 1000,
-            createdAt: moment().format(),
-          },
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'EUR',
-            value: 20,
-            createdAt: moment().format(),
-          },
-          {
-            id: uuid(),
-            number: uuid(),
-            currency: 'USD',
-            value: 18,
-            createdAt: moment().format(),
-          },
-        ];
-
-        if (me) {
-          return {
-            props: {
-              user: me,
-              accounts,
-            },
-          };
-        }
-      }
-      return { props: {} };
-    },
+    }),
     { redirectToLogin: true },
   );
 
