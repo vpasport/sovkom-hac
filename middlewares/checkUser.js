@@ -19,11 +19,10 @@ const checkUser = async (ctx, callback, { redirectToLogin = true }) => {
 
   if (cookie) {
     try {
-      const user = await getMe(cookie);
+      const user = await (await getMe(cookie)).data;
       ctx.user = user;
-      console.log(user);
     } catch (e) {
-      console.log(e.response.data);
+      console.log(e.response?.data);
       if (redirectToLogin) {
         return {
           redirect: {
