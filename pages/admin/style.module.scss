@@ -3,7 +3,7 @@
 .admin-page {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 35px;
     align-items: center;
 
     width: 100%;
@@ -16,10 +16,9 @@
         align-items: center;
         justify-content: space-between;
 
-        width: 90%;
+        width: 100%;
         max-width: 1000px;
         margin: 20px 0 0;
-        padding: 15px;
         padding: 20px 40px;
 
         background-color: #fff;
@@ -29,6 +28,27 @@
 
         &__btn-users {
             width: 30%;
+        }
+    }
+
+    &_wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        width: 100%;
+        max-width: 1000px;
+        height: 100%;
+
+        &__title {
+            text-align: center;
+        }
+
+        &__currs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 35px;
+            justify-content: center;
         }
     }
 }
