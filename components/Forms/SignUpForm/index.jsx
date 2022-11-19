@@ -1,28 +1,24 @@
 import { useFormik } from 'formik';
 import moment from 'moment';
 
-import { Input, Button, Loader, TextEditor } from '@components';
-import { useNotifications } from '@hooks';
+import { Calendar } from 'primereact/calendar';
+
+import { Input, Button, Loader } from '@components';
 
 import { toClassName } from '@utils';
 import styles from './style.module.scss';
 
-const SignUpForm = ({
-  onSubmit = () => {},
-  onCancel = () => {},
-  loading = false,
-}) => {
-  const { pushNotifications } = useNotifications();
+const SignUpForm = ({ onSubmit = () => {}, onCancel = () => {}, loading = false }) => {
   const formik = useFormik({
     initialValues: {
       login: '',
       password: '',
       passwordRepit: '',
       firstName: '',
+      patronymic: '',
       lastName: '',
-      description: '',
       email: '',
-      date: new Date(),
+      date: null,
     },
     validate: (data) => {
       const error = {};
@@ -32,6 +28,9 @@ const SignUpForm = ({
       }
       if (!data.firstName) {
         error.firstName = 'Некорректное имя';
+      }
+      if (!data.patronymic) {
+        error.patronymic = 'Некорректное отчество';
       }
       if (!data.lastName) {
         error.lastName = 'Некорректная фамилия';
@@ -45,22 +44,20 @@ const SignUpForm = ({
       ) {
         error.email = 'Некорректный email';
       }
-      if (!data.date || moment(data.date).year() > 2005) {
-        pushNotifications({
-          type: 'error',
-          header: 'Ошибка',
-          description: 'Некорректная дата рождения',
-        });
-        error.date = 'Некорректная дата рождения';
-      }
       if (data.password !== data.passwordRepit) {
         error.password = 'Пароли не совпадают';
         error.passwordRepit = 'Пароли не совпадают';
       }
+      if (data.date === null) {
+        error.date = 'Введите дату';
+      }
+      if (moment().diff(moment(data.date), 'years') < 18) {
+        error.date = 'Возраст должен быть больше 18 лет';
+      }
 
       return error;
     },
-    onSubmit,
+    onSubmit: (data) => onSubmit({ ...data, date: moment(data.date).utcOffset(0, true).format() }),
   });
 
   return (
@@ -83,7 +80,7 @@ const SignUpForm = ({
             formik.errors.login && styles['form-input-container-input_error'],
           )}
           typedefault="text"
-          placeholder="Login"
+          placeholder="Логин"
           name="login"
           value={formik.values.login}
           onChange={formik.handleChange}
@@ -94,26 +91,38 @@ const SignUpForm = ({
         <Input
           className={toClassName(
             styles['form-input-container-input'],
-            formik.errors.firstName &&
-              styles['form-input-container-input_error'],
+            formik.errors.firstName && styles['form-input-container-input_error'],
           )}
           typedefault="text"
-          placeholder="First name"
+          placeholder="Имя"
           name="firstName"
           value={formik.values.firstName}
           onChange={formik.handleChange}
-          description={formik.errors.lastName}
+          description={formik.errors.firstName}
         />
       </div>
       <div className={styles['form-input-container']}>
         <Input
           className={toClassName(
             styles['form-input-container-input'],
-            formik.errors.lastName &&
-              styles['form-input-container-input_error'],
+            formik.errors.patronymic && styles['form-input-container-input_error'],
           )}
           typedefault="text"
-          placeholder="Last name"
+          placeholder="Отчество"
+          name="patronymic"
+          value={formik.values.patronymic}
+          onChange={formik.handleChange}
+          description={formik.errors.patronymic}
+        />
+      </div>
+      <div className={styles['form-input-container']}>
+        <Input
+          className={toClassName(
+            styles['form-input-container-input'],
+            formik.errors.lastName && styles['form-input-container-input_error'],
+          )}
+          typedefault="text"
+          placeholder="Фамилия"
           name="lastName"
           value={formik.values.lastName}
           onChange={formik.handleChange}
@@ -124,13 +133,14 @@ const SignUpForm = ({
         <Input
           className={toClassName(
             styles['form-input-container-input'],
-            formik.errors.date && styles['form-input-container-input_error'],
+            formik.errors.lastName && styles['form-input-container-input_error'],
           )}
-          type="date"
-          placeholder="Birth date"
-          value={formik.values.date}
-          onChange={(e) => formik.setFieldValue('date', e)}
-          description={formik.errors.date}
+          typedefault="text"
+          placeholder="Фамилия"
+          name="lastName"
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          description={formik.errors.lastName}
         />
       </div>
       <div className={styles['form-input-container']}>
@@ -148,21 +158,13 @@ const SignUpForm = ({
         />
       </div>
       <div className={styles['form-input-container']}>
-        <TextEditor
-          placeholder="О себе"
-          className={styles['form-input-container-editor']}
-          onChange={(val) => formik.setFieldValue('description', val)}
-        />
-      </div>
-      <div className={styles['form-input-container']}>
         <Input
           className={toClassName(
             styles['form-input-container-input'],
-            formik.errors.password &&
-              styles['form-input-container-input_error'],
+            formik.errors.password && styles['form-input-container-input_error'],
           )}
           typedefault="password"
-          placeholder="Password"
+          placeholder="Пароль"
           name="password"
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -173,23 +175,39 @@ const SignUpForm = ({
         <Input
           className={toClassName(
             styles['form-input-container-input'],
-            formik.errors.passwordRepit &&
-              styles['form-input-container-input_error'],
+            formik.errors.passwordRepit && styles['form-input-container-input_error'],
           )}
           typedefault="password"
-          placeholder="Repeat password"
+          placeholder="Повторите пароль"
           name="passwordRepit"
           value={formik.values.passwordRepit}
           onChange={formik.handleChange}
           description={formik.errors.passwordRepit}
         />
       </div>
+      <div className={styles['form-input-container']}>
+        <span className="p-float-label">
+          <Calendar
+            className={toClassName(
+              styles['form-input-container-calendar'],
+              formik.errors.date && styles['form-input-container-calendar_error'],
+            )}
+            id="date"
+            name="date"
+            value={formik.values.date}
+            onChange={formik.handleChange}
+            dateFormat="dd.mm.yy"
+          />
+          <label htmlFor="date">Дата рождения</label>
+        </span>
+        {formik.errors.date && (
+          <p className={styles['form-input-container-calendar-description']}>
+            {formik.errors.date}
+          </p>
+        )}
+      </div>
       <div className={styles['form-buttons']}>
-        <Button
-          defaulttype="submit"
-          className={styles['form-buttons-button']}
-          disabled={loading}
-        >
+        <Button defaulttype="submit" className={styles['form-buttons-button']} disabled={loading}>
           Зарегистрироваться
         </Button>
         <Button

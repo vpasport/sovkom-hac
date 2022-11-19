@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint:check": "eslint ./ --ext js,jsx,ts,tsx",
-    "lint:fix": "eslint ./ --ext js,jsx,ts,tsx --fix",
+    "lint:check": "next lint",
+    "lint:fix": "next lint --fix",
     "lint:css": "stylelint ./",
     "lint:css:fix": "npm run lint:css -- --fix",
     "prepare": "husky install"
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@lexical/react": "^0.6.0",
+    "axios": "^1.1.3",
     "date-fns": "^2.29.3",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",

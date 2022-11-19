@@ -5,12 +5,7 @@ import 'primeicons/primeicons.css';
 import { Calendar } from 'primereact/calendar';
 
 const DatePicker = ({ value, onChange }) => (
-  <Calendar
-    value={value}
-    onChange={onChange}
-    dateFormat="dd.mm.yy"
-    placeholder="Select date"
-  />
+  <Calendar value={value} onChange={onChange} dateFormat="dd.mm.yy" placeholder="Select date" />
 );
 
 export { DatePicker };

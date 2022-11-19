@@ -9,7 +9,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <NotificationContextProvider>
       <NextNProgress />
-      <Component {...pageProps} />
+      <div className="root">
+        <Component {...pageProps} />
+      </div>
     </NotificationContextProvider>
   );
 }
