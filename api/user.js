@@ -29,4 +29,17 @@ const createScoreByUser = (data) =>
 const deleteScore = (data) =>
   userApi.delete('/deleteScore', { headers: createHeaders({ cookie: document.cookie }), data });
 
-export { getMe, signIn, registration, getAll, updateUser, logout, createScoreByUser, deleteScore };
+const updateScore = (data) =>
+  userApi.post('/updateScore', data, { headers: createHeaders({ cookie: document.cookie }) });
+
+export {
+  getMe,
+  signIn,
+  registration,
+  getAll,
+  updateUser,
+  logout,
+  createScoreByUser,
+  deleteScore,
+  updateScore,
+};

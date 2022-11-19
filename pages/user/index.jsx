@@ -12,7 +12,13 @@ const User = ({ user = {} }) => {
   const router = useRouter();
   const { pushNotifications } = useNotifications();
 
-  const [userInfo, setUserInfo] = useState(user);
+  const [userInfo, setUserInfo] = useState({
+    ...user,
+    userScore: [
+      user.userScore.find((el) => el.currency === 'RUB'),
+      ...user.userScore.filter((el) => el.currency !== 'RUB'),
+    ].filter((el) => !!el),
+  });
 
   const onAccountAdd = useCallback(() => {
     router.push('/user/account/add');
@@ -24,6 +30,10 @@ const User = ({ user = {} }) => {
     },
     [router],
   );
+
+  const onAccountDeposit = useCallback(() => {
+    router.push('/user/payment');
+  }, [router]);
 
   const onAccountDelete = useCallback(
     (id) => {
@@ -87,6 +97,8 @@ const User = ({ user = {} }) => {
             value={el.value}
             onClick={onAccountClick}
             onDelete={onAccountDelete}
+            withDeposit={el.currency === 'RUB'}
+            onDeposit={onAccountDeposit}
           />
         ))}
       </div>
