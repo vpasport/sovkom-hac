@@ -1,19 +1,35 @@
+import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { Button, Forms, Svg } from '@components';
 import * as UserService from '@api/user';
+import { checkUser } from '@middlewares';
+import { useNotifications } from '@hooks';
 
 import { toClassName } from '@utils/toClassName';
 import styles from './style.module.scss';
 
 const LoginPage = () => {
+  const router = useRouter();
+  const { pushNotifications } = useNotifications();
+
   const [signup, setSignup] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const onLogin = useCallback((data) => {
     setLoading(true);
     UserService.signIn(data)
-      .then((res) => console.log(res))
+      .then((res) => {
+        if (res.data.verify === 0) {
+          pushNotifications({
+            type: 'error',
+            header: 'Ошибка',
+            description: 'Ваша регистрация не подтверждена',
+          });
+        } else {
+          router.push('/user');
+        }
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -45,28 +61,22 @@ const LoginPage = () => {
   );
 };
 
-export const getServerSideProps = async ({
-  req: {
-    headers: { cookie },
-  },
-}) => {
-  try {
-    if (cookie) {
-      const me = await (await UserService.getMe(cookie)).data;
+export const getServerSideProps = (ctx) =>
+  checkUser(
+    ctx,
+    async ({ user }) => {
+      if (user !== null) {
+        return {
+          redirect: {
+            destination: '/user',
+            permanent: true,
+          },
+        };
+      }
 
-      console.log(me);
-
-      return {
-        redirect: {
-          destination: '/main',
-          permanent: true,
-        },
-      };
-    }
-  } catch (e) {
-    console.error(e);
-  }
-  return { props: {} };
-};
+      return { props: {} };
+    },
+    { redirectToLogin: false },
+  );
 
 export default LoginPage;

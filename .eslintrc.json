@@ -15,7 +15,8 @@
           ["@hooks", "./hooks"],
           ["@utils", "./utils"],
           ["@public", "./public"],
-          ["@mocks", "./mocks"]
+          ["@mocks", "./mocks"],
+          ["@middlewares", "./middlewares"]
         ],
         "extensions": [".ts", ".js", ".jsx", ".json"]
       }
@@ -79,7 +80,7 @@
     "prettier/prettier": [
       "warn",
       {
-        "endOfLine": "crlf",
+        "endOfLine": "lf",
         "semi": true,
         "singleQuote": true,
         "bracketSameLine": false,
@@ -114,6 +115,7 @@
         "peerDependencies": false
       }
     ],
+    "no-plusplus": "off",
     "react/display-name": "off",
     "quotes": ["error", "single"],
     "semi": "off",

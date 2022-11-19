@@ -17,7 +17,9 @@
       "@utils": ["utils"],
       "@public/*": ["public/*"],
       "@public": ["public"],
-      "@mocks/*": ["mocks/*"]
+      "@mocks/*": ["mocks/*"],
+      "@middlewares": ["middlewares"],
+      "@middlewares/*": ["middlewares/*"]
     }
   }
 }

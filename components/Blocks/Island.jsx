@@ -36,8 +36,7 @@ const IslandBlock = () => {
             custom: <span>Тут должен быть переход</span>,
             onClose: () => console.log('close custom'),
             style: { color: 'rgb(23, 112, 255)' },
-          })
-        }
+          })}
         buttonText="Button"
       />
       <Island
@@ -52,8 +51,7 @@ const IslandBlock = () => {
             custom: <span>Тут должен быть переход</span>,
             onClose: () => console.log('close custom'),
             style: { color: 'rgb(23, 112, 255)' },
-          })
-        }
+          })}
         buttonText="Button"
       />
     </div>

@@ -4,6 +4,7 @@ export { Button } from './Button';
 export { Input } from './Input';
 export { Table } from './Table';
 export * as Forms from './Forms';
+export { Header } from './Header';
 export { CustomImage } from './Image';
 export { Island } from './Island';
 export { Loader } from './Loader';
