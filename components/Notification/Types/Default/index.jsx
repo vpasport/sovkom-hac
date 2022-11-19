@@ -16,9 +16,7 @@ const DefaultNotification = ({
     {...props}
   >
     <span className={styles.notification__header}>{header}</span>
-    {!!description && (
-      <span className={styles.notification__description}>{description}</span>
-    )}
+    {!!description && <span className={styles.notification__description}>{description}</span>}
   </div>
 );
 

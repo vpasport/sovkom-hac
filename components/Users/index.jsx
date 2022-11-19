@@ -38,30 +38,37 @@ const Users = () => {
 
   const columns = [
     {
+      id: 0,
       header: 'Логин',
       field: 'login',
     },
     {
+      id: 1,
       header: 'Фамилия',
       field: 'last_name',
     },
     {
+      id: 2,
       header: 'Имя',
       field: 'first_name',
     },
     {
+      id: 3,
       header: 'Отчество',
       field: 'patronymic',
     },
     {
+      id: 4,
       header: 'День рождения',
       field: 'birthday',
     },
     {
+      id: 5,
       header: 'Верифицикация',
       field: 'verified',
     },
     {
+      id: 6,
       header: '',
       field: 'blocked',
     },
@@ -69,11 +76,7 @@ const Users = () => {
 
   return (
     <div>
-      <Table
-        columns={columns}
-        items={items}
-        toggle={(data) => setItems([...data])}
-      />
+      <Table columns={columns} items={items} toggle={(data) => setItems([...data])} />
     </div>
   );
 };

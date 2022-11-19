@@ -34,10 +34,7 @@ const Menu = () => {
       }}
     >
       <div className={styles['menu-items']}>
-        <div
-          className={styles['menu-header']}
-          onClick={() => setIsFull((prev) => !prev)}
-        >
+        <div className={styles['menu-header']} onClick={() => setIsFull((prev) => !prev)}>
           {isFull ? (
             <>
               <FiChevronLeft className={styles['menu-header-icon']} />

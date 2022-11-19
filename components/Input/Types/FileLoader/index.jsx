@@ -4,11 +4,7 @@ import { Svg } from '@components';
 
 import styles from './style.module.scss';
 
-const FileLoader = ({
-  onChange = () => {},
-  leftIcon: LeftIcon = null,
-  initValue = '',
-}) => {
+const FileLoader = ({ onChange = () => {}, leftIcon: LeftIcon = null, initValue = '' }) => {
   const fileInput = useRef();
   const preview = useRef();
 
@@ -65,13 +61,7 @@ const FileLoader = ({
         )}
       </div>
       <label onChange={() => addFile(fileInput)} className={styles.file_input}>
-        <input
-          ref={fileInput}
-          type="file"
-          name="file[]"
-          multiple
-          accept="image/*"
-        />
+        <input ref={fileInput} type="file" name="file[]" multiple accept="image/*" />
         <span>Выберите файл</span>
       </label>
     </div>

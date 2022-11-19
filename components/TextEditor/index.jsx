@@ -30,11 +30,7 @@ import {
 import './style.module.scss';
 
 function Placeholder({ text = '' }) {
-  return (
-    <div className="editor-placeholder">
-      {text || 'Enter some rich text...'}
-    </div>
-  );
+  return <div className="editor-placeholder">{text || 'Enter some rich text...'}</div>;
 }
 
 const editorConfig = {
@@ -88,12 +84,7 @@ const SetInitText = ({ value }) => {
   return null;
 };
 
-const TextEditor = ({
-  initValue = '',
-  onChange = () => {},
-  className = '',
-  placeholder = '',
-}) => (
+const TextEditor = ({ initValue = '', onChange = () => {}, className = '', placeholder = '' }) => (
   <LexicalComposer initialConfig={editorConfig}>
     <div className={toClassName('editor-container', className)}>
       <ToolbarPlugin />

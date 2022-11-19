@@ -51,21 +51,14 @@ const PopupBlock = () => {
         Do you want delete?
       </Popup>
 
-      <Popup
-        type="custom"
-        button="button"
-        buttonText="Custom попап"
-        contentLabel="Custom"
-      >
+      <Popup type="custom" button="button" buttonText="Custom попап" contentLabel="Custom">
         <input
           type="range"
           min={0}
           max={100}
           value={progress}
           step="5"
-          onChange={({ target: { valueAsNumber } }) =>
-            setProgress(valueAsNumber)
-          }
+          onChange={({ target: { valueAsNumber } }) => setProgress(valueAsNumber)}
         />
         <Island
           badge="Задание"
@@ -73,9 +66,7 @@ const PopupBlock = () => {
           header="Header"
           progress={progress}
           price={100}
-          onButtonClick={() =>
-            pushNotifications(<div>{new Date().toISOString()}</div>)
-          }
+          onButtonClick={() => pushNotifications(<div>{new Date().toISOString()}</div>)}
           buttonText="Button"
         />
       </Popup>

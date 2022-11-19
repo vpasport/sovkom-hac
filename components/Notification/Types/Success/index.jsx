@@ -19,9 +19,7 @@ const SuccessNotification = ({
   >
     <div className={styles.notification__content}>
       <span className={styles.notification__header}>{header}</span>
-      {!!description && (
-        <span className={styles.notification__description}>{description}</span>
-      )}
+      {!!description && <span className={styles.notification__description}>{description}</span>}
     </div>
     <div className={styles['notification__icon-container']}>
       <FiCheck className={styles['notification__icon-container__icon']} />

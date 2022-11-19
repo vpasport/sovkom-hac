@@ -13,11 +13,17 @@ import styles from './style.module.scss';
 const Popup = (props) => {
   const value = props?.isOpenNow ? props.isOpenNow : false;
 
+  const setConfirm = (val) => {
+    const answer = val?.target.id === 'confirm';
+    props.confirm(answer);
+    return setIsOpen(!isOpen);
+  };
+
   const [isOpen, setIsOpen] = useState(value);
 
   const propsContentPopup = {
     ...props,
-    toggle: () => setIsOpen(!isOpen),
+    toggle: setConfirm,
   };
 
   return (
@@ -55,11 +61,7 @@ const Popup = (props) => {
 
 Popup.propTypes = {
   type: PropTypes.oneOf(Object.keys(popupTypes)).isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.array,
-    PropTypes.string,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.string]),
 };
 
 export { Popup };

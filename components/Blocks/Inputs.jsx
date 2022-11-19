@@ -107,12 +107,7 @@ const InputsBlock = () => {
       <Input type="date" value={date} onChange={(e) => setDate(e)} />
 
       {/* иконка нужна - в import */}
-      <Input
-        type="file"
-        leftIcon={AiFillCloseCircle}
-        value={files}
-        onChange={(e) => setFiles(e)}
-      />
+      <Input type="file" leftIcon={AiFillCloseCircle} value={files} onChange={(e) => setFiles(e)} />
     </div>
   );
 };

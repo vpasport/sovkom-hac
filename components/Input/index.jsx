@@ -21,12 +21,7 @@ Input.defaultProps = {
 
 Input.propTypes = {
   type: PropTypes.oneOf(Object.keys(inputTypes)),
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-    PropTypes.array,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]),
   onChange: PropTypes.func,
   defaulttype: PropTypes.string,
   onClick: PropTypes.func,
