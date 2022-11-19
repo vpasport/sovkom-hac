@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { Button, Forms, Svg } from '@components';
-import * as UsetService from '@api/user';
+import * as UserService from '@api/user';
 
 import { toClassName } from '@utils/toClassName';
 import styles from './style.module.scss';
@@ -12,14 +12,14 @@ const LoginPage = () => {
 
   const onLogin = useCallback((data) => {
     setLoading(true);
-    UsetService.signIn(data)
+    UserService.signIn(data)
       .then((res) => console.log(res))
       .finally(() => setLoading(false));
   }, []);
 
   const onSignup = useCallback((data) => {
     setLoading(true);
-    UsetService.signIn(data)
+    UserService.signIn(data)
       .then((res) => console.log(res))
       .finally(() => setLoading(false));
   }, []);
@@ -52,7 +52,7 @@ export const getServerSideProps = async ({
 }) => {
   try {
     if (cookie) {
-      const me = await (await UsetService.getMe(cookie)).data;
+      const me = await (await UserService.getMe(cookie)).data;
 
       console.log(me);
 

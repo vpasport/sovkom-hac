@@ -1,3 +1,4 @@
+export { Account } from './Account';
 export * as Blocks from './Blocks';
 export { Button } from './Button';
 export { Input } from './Input';
@@ -12,4 +13,5 @@ export { Popup } from './Popup';
 export { Svg } from './Svg';
 export { TextEditor, TextViewer } from './TextEditor';
 export { ToolBar } from './Toolbar';
+export { UserInfo } from './UserInfo';
 export { Users } from './Users';

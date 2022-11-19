@@ -14,7 +14,8 @@
           ["@pages", "./pages"],
           ["@hooks", "./hooks"],
           ["@utils", "./utils"],
-          ["@public", "./public"]
+          ["@public", "./public"],
+          ["@mocks", "./mocks"]
         ],
         "extensions": [".ts", ".js", ".jsx", ".json"]
       }
@@ -113,6 +114,7 @@
         "peerDependencies": false
       }
     ],
+    "react/display-name": "off",
     "quotes": ["error", "single"],
     "semi": "off",
     "react-hooks/exhaustive-deps": "warn",
