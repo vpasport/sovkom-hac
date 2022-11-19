@@ -1,0 +1,34 @@
+@import '../../styles/variables';
+
+.admin-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 80px 40px;
+
+    &_card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 90%;
+        max-width: 1000px;
+        margin: 20px 0 0;
+        padding: 15px;
+        padding: 20px 40px;
+
+        background-color: #fff;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        box-shadow: $box-shadow-1;
+
+        &__btn-users {
+            width: 30%;
+        }
+    }
+}

@@ -1,11 +1,13 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { FiChevronLeft } from 'react-icons/fi';
-
 import { Users, Button } from '@components';
 
-import * as UsetService from '@api/user';
+import * as UserService from '@api/user';
+
+import { FiChevronLeft } from 'react-icons/fi';
+
+import styles from './style.module.scss';
 
 const UsersPage = () => {
   const router = useRouter();
@@ -14,48 +16,67 @@ const UsersPage = () => {
   let updUser = {};
   const [users, setUsers] = useState([
     {
-      id: 0,
-      login: 'anyalozovaya@mail.ru',
-      first_name: 'Анна',
-      last_name: 'Лозовая',
-      patronymic: 'Яковлевна',
-      birthday: '08.12.1999',
-      verified: true,
-      blocked: false,
+      login: 'gavno13',
+      id: 8,
+      verify: 0,
+      role: 'user',
+      rights: null,
+      createdAt: '2022-11-19T04:52:13.648Z',
+      deletedAt: null,
+      additionalFields: null,
     },
     {
-      id: 1,
-      login: 'kdsj@mail.ru',
-      first_name: 'Геннадий',
-      last_name: 'Петров',
-      patronymic: 'Ибрагимович',
-      birthday: '18.02.1979',
-      verified: true,
-      blocked: true,
+      login: 'gavno228',
+      id: 9,
+      verify: 1,
+      role: 'user',
+      rights: null,
+      createdAt: '2022-11-19T06:27:57.504Z',
+      deletedAt: null,
+      additionalFields: {
+        id: 6,
+        deletedAt: null,
+        createdAt: '2022-11-19T05:05:06.696Z',
+        updatedAt: '2022-11-19T05:05:06.696Z',
+        lastName: 'neo4en',
+        firstName: 'loh',
+        secondName: 'olen',
+        codeWord: 'allah velik',
+        dateOfBirth: '1992-10-23T00:00:00.000Z',
+      },
     },
     {
-      id: 2,
-      login: 'kdaaadjdhadhsj@mail.ru',
-      first_name: 'Алефтина',
-      last_name: 'Семенова',
-      patronymic: 'Олеговна',
-      birthday: '01.01.1947',
-      verified: false,
-      blocked: false,
+      login: 'gavno22',
+      id: 3,
+      verify: 1,
+      role: 'user',
+      rights: null,
+      createdAt: '2022-11-18T18:36:13.353Z',
+      deletedAt: '2022-11-19T06:39:42.591Z',
+      additionalFields: {
+        id: 3,
+        deletedAt: null,
+        createdAt: '2022-11-18T21:40:42.326Z',
+        updatedAt: '2022-11-19T05:36:49.981Z',
+        lastName: 'neo4en',
+        firstName: 'loh',
+        secondName: 'olen',
+        codeWord: 'allah velik',
+        dateOfBirth: '1992-10-23T00:00:00.000Z',
+      },
     },
   ]);
 
   const getAll = useCallback(() => {
-    // setLoading(true);
-    UsetService.getAll()
+    setLoading(true);
+    UserService.getAll()
       .then((res) => console.log(res))
-      .catch((error) => console.log(error.message));
-    // .finally(() => setLoading(false));
+      .catch((error) => console.log(error.message))
+      .finally(() => setLoading(false));
   }, []);
 
   const updateUser = useCallback((data) => {
     console.log('updateUser', data);
-    setLoading(false);
     // UsetService.updateUser(data).then((res) => console.log(res)).catch(error => console.log(error.message))
     // .finally(() => setLoading(false));
   }, []);
@@ -70,20 +91,22 @@ const UsersPage = () => {
     getAll();
   }, []);
   return (
-    <div>
-      <div>
+    <div className={styles['users-page']}>
+      <section className={styles['users-page_btns']}>
         <Button type="text" leftIcon={FiChevronLeft} onClick={() => router.push('/admin/')}>
           Назад
         </Button>
-      </div>
-
-      <h2>Информация о пользователях</h2>
-      <Users
-        users={users}
-        updateUsers={(data) => setUsers([...data])}
-        updatedUser={(val) => setNewUser(val)}
-        loading={loading}
-      />
+      </section>
+      <section className={styles['users-page_wrapper']}>
+        <h2 className={styles['users-page_wrapper__title']}>Информация о пользователях</h2>
+        <Users
+          className={styles['users-page_wrapper__table']}
+          users={users}
+          updateUsers={(data) => setUsers([...data])}
+          updatedUser={(val) => setNewUser(val)}
+          loading={loading}
+        />
+      </section>
     </div>
   );
 };

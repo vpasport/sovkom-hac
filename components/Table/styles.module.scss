@@ -1,4 +1,8 @@
+@import '../../styles/variables';
+
 .table {
+    box-shadow: $box-shadow-1;
+
     &_btn {
         &__block {
             background-color: rgb(234 35 35);

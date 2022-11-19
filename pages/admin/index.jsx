@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 
 import { Button } from '@components';
 
+import styles from './style.module.scss';
+
 // import * as UsetService from '@api/user';
 
 const AdminPage = () => {
@@ -14,11 +16,15 @@ const AdminPage = () => {
   // const updUser = {};
 
   return (
-    <div>
-      <h2>Администратор</h2>
-      <div>
-        <Button type="text" onClick={() => router.push('admin/users/')}>
-          Пользователи
+    <div className={styles['admin-page']}>
+      <div className={styles['admin-page_card']}>
+        <h2 className={styles['admin-page_card__title']}>Администратор</h2>
+        <Button
+          className={styles['admin-page_card__btn-users']}
+          type="border"
+          onClick={() => router.push('admin/users/')}
+        >
+          Список пользователей
         </Button>
       </div>
     </div>
