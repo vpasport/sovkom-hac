@@ -1,19 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import { checkUser } from '@middlewares';
+import * as CurrencyService from '@api/currency';
+import { useNotifications } from '@hooks';
 
-// import { FiChevronLeft } from 'react-icons/fi';
-
-import { Button, CurrencyManagement } from '@components';
+import { Button, CurrencyManagement, Loader } from '@components';
 
 import styles from './style.module.scss';
 
-// import * as UsetService from '@api/user';
-
 const AdminPage = () => {
   const router = useRouter();
+  const { pushNotifications } = useNotifications();
 
+  const [loading, setLoading] = useState(false);
   const [currencies, setCurrencies] = useState([
     {
       id: 0,
@@ -66,8 +66,24 @@ const AdminPage = () => {
     setCurrencies(data);
   }
 
-  // const [loading, setLoading] = useState(false);
-  // const updUser = {};
+  const getAvailable = useCallback(() => {
+    setLoading(true);
+    CurrencyService.getAvailable()
+      .then((res) => setCurrencies(res))
+      .catch((error) => {
+        pushNotifications({
+          type: 'error',
+          header: 'Ошибка',
+          description: error.message,
+        });
+        console.log(error);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    getAvailable();
+  }, []);
 
   return (
     <div className={styles['admin-page']}>
@@ -84,14 +100,20 @@ const AdminPage = () => {
       <div className={styles['admin-page_wrapper']}>
         <h2 className={styles['admin-page_wrapper__title']}>Управление валютами</h2>
         <div className={styles['admin-page_wrapper__currs']}>
-          {!!currencies &&
+          {loading ? (
+            <div className={styles.users_loader}>
+              <Loader />
+            </div>
+          ) : (
+            !!currencies &&
             currencies.map((item) => (
               <CurrencyManagement
                 key={item.id}
                 currency={item}
                 toggle={(val) => setValueCurrency(val, item)}
               />
-            ))}
+            ))
+          )}
         </div>
       </div>
     </div>
