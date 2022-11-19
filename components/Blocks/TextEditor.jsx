@@ -3,13 +3,10 @@ import { useState } from 'react';
 
 import { TextViewer, Loader } from '@components';
 
-const TextEditor = dynamic(
-  () => import('@components/TextEditor').then((mod) => mod.TextEditor),
-  {
-    ssr: false,
-    loading: () => <Loader />,
-  },
-);
+const TextEditor = dynamic(() => import('@components/TextEditor').then((mod) => mod.TextEditor), {
+  ssr: false,
+  loading: () => <Loader />,
+});
 
 // const initValue = `<p class="editor-paragraph" dir="ltr" style="text-align: center;"><span>sdfsdfsdf</span></p><p class="editor-paragraph" dir="ltr"><span>sdf</span></p><p class="editor-paragraph" dir="ltr"><span>sd</span></p><p class="editor-paragraph" dir="ltr"><span>f</span></p><p class="editor-paragraph" dir="ltr"><span>sdfsd</span></p><p class="editor-paragraph" dir="ltr"><span>f</span></p><p class="editor-paragraph" dir="ltr"><span>sd</span></p><p class="editor-paragraph" dir="ltr"><span>f</span></p><p class="editor-paragraph" dir="ltr"><span>sd</span></p><p class="editor-paragraph" dir="ltr"><span>f</span></p><p class="editor-paragraph" dir="ltr"><span>sd</span></p><p class="editor-paragraph" dir="ltr"><span>f</span></p><p class="editor-paragraph" dir="ltr"><span>sdf</span></p><p class="editor-paragraph" dir="ltr"><span>sd</span></p><p class="editor-paragraph" dir="ltr"><span>f</span></p><p class="editor-paragraph" dir="ltr"><span>sdf</span></p><p class="editor-paragraph" dir="ltr"><span>sd</span></p><p class="editor-paragraph" dir="ltr"><span>f</span></p><p class="editor-paragraph" dir="ltr"><span>sd</span></p><p class="editor-paragraph" dir="ltr"><span>f</span></p><p class="editor-paragraph" dir="ltr"><span>sdf</span></p><p class="editor-paragraph" dir="ltr"><span>;sdlfjdlkjg;ldfsgfsb</span></p><p class="editor-paragraph" dir="ltr"><br></p>`;
 const initValue = '';

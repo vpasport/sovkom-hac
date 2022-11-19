@@ -11,9 +11,7 @@ const DefaultInput = ({
   descriptionClassName = '',
   ...props
 }) => {
-  const stylesInput = props.disabled
-    ? `${styles.input} ${styles.disabled}`
-    : styles.input;
+  const stylesInput = props.disabled ? `${styles.input} ${styles.disabled}` : styles.input;
 
   return (
     <div className={toClassName(styles.wrapper, className)}>
@@ -22,9 +20,7 @@ const DefaultInput = ({
         <input type={type} {...props} />
         {!!RightIcon && <RightIcon className={styles.input_icon__right} />}
       </div>
-      <p
-        className={toClassName(styles.input_description, descriptionClassName)}
-      >
+      <p className={toClassName(styles.input_description, descriptionClassName)}>
         {props.description}
       </p>
     </div>

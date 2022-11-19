@@ -61,11 +61,7 @@ const LoginForm = ({ onSubmit = () => {}, loading = false }) => {
           description={formik.errors.password}
         />
       </div>
-      <Button
-        defaulttype="submit"
-        className={styles['form-button']}
-        disabled={loading}
-      >
+      <Button defaulttype="submit" className={styles['form-button']} disabled={loading}>
         Авторизоваться
       </Button>
     </form>

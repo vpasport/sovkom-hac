@@ -3,12 +3,7 @@ import { Loader } from '@components';
 
 import { useImageError } from '@hooks';
 
-const CustomImage = ({
-  src = '',
-  alt = '',
-  onError = () => {},
-  onLoad = () => {},
-}) => {
+const CustomImage = ({ src = '', alt = '', onError = () => {}, onLoad = () => {} }) => {
   const [setImg, load, hasError] = useImageError();
 
   useEffect(() => {

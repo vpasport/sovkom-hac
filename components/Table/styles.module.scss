@@ -1,0 +1,25 @@
+.table {
+    &_btn {
+        &__block {
+            background-color: rgb(234 35 35);
+        }
+
+        &__unblock {
+            background-color: rgb(117 225 51);
+        }
+    }
+
+    &_column {
+        text-align: center !important;
+
+        &>div {
+            display: flex;
+            justify-content: center;
+        }
+
+        &__icon {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

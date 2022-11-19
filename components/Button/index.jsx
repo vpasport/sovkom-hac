@@ -19,8 +19,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
   type: PropTypes.oneOf(Object.keys(buttonTypes)),
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
-    .isRequired,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   onClick: PropTypes.func,
   defaulttype: PropTypes.string,
   rightIcon: PropTypes.func,

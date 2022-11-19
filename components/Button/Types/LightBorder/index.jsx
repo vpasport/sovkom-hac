@@ -9,11 +9,7 @@ const LightBorderButon = ({
   rightIcon: RightIcon = null,
   ...props
 }) => (
-  <button
-    onClick={onClick}
-    className={toClassName(styles.button, className)}
-    {...props}
-  >
+  <button onClick={onClick} className={toClassName(styles.button, className)} {...props}>
     {!!LeftIcon && <LeftIcon />}
     {!!children && children}
     {!!RightIcon && <RightIcon />}
