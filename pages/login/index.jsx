@@ -30,6 +30,14 @@ const LoginPage = () => {
           router.push('/user');
         }
       })
+      .catch((err) => {
+        pushNotifications({
+          type: 'error',
+          header: 'Ошибка',
+          description: err.response.data.message,
+        });
+        console.error(err);
+      })
       .finally(() => setLoading(false));
   }, []);
 

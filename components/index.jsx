@@ -17,3 +17,4 @@ export { TextEditor, TextViewer } from './TextEditor';
 export { ToolBar } from './Toolbar';
 export { UserInfo } from './UserInfo';
 export { Users } from './Users';
+export { Chart } from './Chart';
