@@ -1,40 +1,23 @@
-import { useState } from 'react';
+import moment from 'moment';
 
-import { Table } from '@components';
+import { Table, Loader } from '@components';
 
-const Users = () => {
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      login: 'anyalozovaya@mail.ru',
-      first_name: 'Анна',
-      last_name: 'Лозовая',
-      patronymic: 'Яковлевна',
-      birthday: '08.12.1999',
-      verified: true,
-      blocked: false,
-    },
-    {
-      id: 1,
-      login: 'kdsj@mail.ru',
-      first_name: 'Геннадий',
-      last_name: 'Петров',
-      patronymic: 'Ибрагимович',
-      birthday: '18.02.1979',
-      verified: true,
-      blocked: true,
-    },
-    {
-      id: 2,
-      login: 'kdaaadjdhadhsj@mail.ru',
-      first_name: 'Алефтина',
-      last_name: 'Семенова',
-      patronymic: 'Олеговна',
-      birthday: '01.01.1947',
-      verified: false,
-      blocked: false,
-    },
-  ]);
+import styles from './style.module.scss';
+
+const Users = ({ users = [], loading = false, updateUsers, updatedUser }) => {
+  const infoUsers = users
+    .filter((item) => item.deletedAt === null)
+    .map((user) => ({
+      id: user.id,
+      login: user.login,
+      lastName: user.additionalFields?.lastName || null,
+      firstName: user.additionalFields?.firstName || null,
+      secondName: user.additionalFields?.secondName || null,
+      dateOfBirth: user.additionalFields?.dateOfBirth
+        ? moment(user.additionalFields.dateOfBirth).format('DD.MM.YYYY')
+        : null,
+      verify: user.verify,
+    }));
 
   const columns = [
     {
@@ -45,39 +28,50 @@ const Users = () => {
     {
       id: 1,
       header: 'Фамилия',
-      field: 'last_name',
+      field: 'lastName',
     },
     {
       id: 2,
       header: 'Имя',
-      field: 'first_name',
+      field: 'firstName',
     },
     {
       id: 3,
       header: 'Отчество',
-      field: 'patronymic',
+      field: 'secondName',
     },
     {
       id: 4,
       header: 'День рождения',
-      field: 'birthday',
+      field: 'dateOfBirth',
     },
     {
       id: 5,
       header: 'Верифицикация',
-      field: 'verified',
+      field: 'verify',
     },
-    {
-      id: 6,
-      header: '',
-      field: 'blocked',
-    },
+    // {
+    //   id: 6,
+    //   header: '',
+    //   field: 'blocked',
+    // },
   ];
 
   return (
-    <div>
-      <Table columns={columns} items={items} toggle={(data) => setItems([...data])} />
-    </div>
+    <>
+      {loading ? (
+        <div className={styles.users_loader}>
+          <Loader />
+        </div>
+      ) : (
+        <Table
+          columns={columns}
+          items={infoUsers}
+          toggle={(data) => updateUsers(data)}
+          updatedRow={(row) => updatedUser(row)}
+        />
+      )}
+    </>
   );
 };
 

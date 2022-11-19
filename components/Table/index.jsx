@@ -12,9 +12,11 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import styles from './styles.module.scss';
 
-const Table = ({ columns = [], items = [], toggle }) => {
+const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
   const changeStatus = (data, prop, value) => {
     const newData = data;
+
+    updatedRow(newData);
     newData[prop] = value;
 
     return toggle(items);
@@ -24,8 +26,8 @@ const Table = ({ columns = [], items = [], toggle }) => {
     <div className={styles.table_column__icon}>
       <i
         className={classNames('pi', {
-          'true-icon pi-check-circle': rowData.verified,
-          'false-icon pi-times-circle': !rowData.verified,
+          'true-icon pi-check-circle': rowData.verify,
+          'false-icon pi-times-circle': !rowData.verify,
         })}
       />
     </div>
@@ -33,10 +35,10 @@ const Table = ({ columns = [], items = [], toggle }) => {
 
   const actionBodyTemplate = (rowData) => (
     <>
-      {!rowData.verified && (
-        <Button onClick={() => changeStatus(rowData, 'verified', true)}>Подтвердить</Button>
+      {!rowData.verify && (
+        <Button onClick={() => changeStatus(rowData, 'verify', true)}>Подтвердить</Button>
       )}
-      {!rowData.blocked && rowData.verified ? (
+      {!rowData.blocked && rowData.verify ? (
         <Popup
           type="confirm"
           button="button"
@@ -50,7 +52,7 @@ const Table = ({ columns = [], items = [], toggle }) => {
           Вы хотите заблокировать пользователя?
         </Popup>
       ) : (
-        rowData.verified && (
+        rowData.verify && (
           <Button
             className={styles.table_btn__unblock}
             onClick={() => changeStatus(rowData, 'blocked', false)}
@@ -63,14 +65,14 @@ const Table = ({ columns = [], items = [], toggle }) => {
   );
 
   const typeData = (field) => {
-    if (field === 'verified' || field === 'blocked') {
+    if (field === 'verify' || field === 'blocked') {
       return 'boolean';
     }
     return 'string';
   };
 
   const bodyRow = (field) => {
-    if (field === 'verified') return verifiedBodyTemplate;
+    if (field === 'verify') return verifiedBodyTemplate;
     if (field === 'blocked') return actionBodyTemplate;
 
     return '';
