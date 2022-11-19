@@ -4,20 +4,28 @@ import { Table, Loader } from '@components';
 
 import styles from './style.module.scss';
 
-const Users = ({ users = [], loading = false, updateUsers, updatedUser }) => {
-  const infoUsers = users
-    .filter((item) => item.deletedAt === null)
-    .map((user) => ({
-      id: user.id,
-      login: user.login,
-      lastName: user.additionalFields?.lastName || null,
-      firstName: user.additionalFields?.firstName || null,
-      secondName: user.additionalFields?.secondName || null,
-      dateOfBirth: user.additionalFields?.dateOfBirth
-        ? moment(user.additionalFields.dateOfBirth).format('DD.MM.YYYY')
-        : null,
-      verify: user.verify,
-    }));
+const Users = ({ users = [], loading = false, updatedUser }) => {
+  const infoUsers = users.map((user) => ({
+    id: user.id,
+    login: user.login,
+    lastName: user.additionalFields?.lastName || null,
+    firstName: user.additionalFields?.firstName || null,
+    secondName: user.additionalFields?.secondName || null,
+    dateOfBirth: user.additionalFields?.dateOfBirth
+      ? moment(user.additionalFields.dateOfBirth).format('DD.MM.YYYY')
+      : null,
+    verify: user.verify,
+    deletedAt: user.deletedAt,
+  }));
+
+  const setNewUser = (row) => {
+    const oldUser = users.find((item) => item.id === row.id);
+
+    oldUser.verify = row.verify;
+    oldUser.deletedAt = row.deletedAt;
+
+    updatedUser(oldUser);
+  };
 
   const columns = [
     {
@@ -50,11 +58,11 @@ const Users = ({ users = [], loading = false, updateUsers, updatedUser }) => {
       header: 'Верифицикация',
       field: 'verify',
     },
-    // {
-    //   id: 6,
-    //   header: '',
-    //   field: 'blocked',
-    // },
+    {
+      id: 6,
+      header: '',
+      field: 'deletedAt',
+    },
   ];
 
   return (
@@ -64,12 +72,7 @@ const Users = ({ users = [], loading = false, updateUsers, updatedUser }) => {
           <Loader />
         </div>
       ) : (
-        <Table
-          columns={columns}
-          items={infoUsers}
-          toggle={(data) => updateUsers(data)}
-          updatedRow={(row) => updatedUser(row)}
-        />
+        <Table columns={columns} items={infoUsers} updatedRow={(row) => setNewUser(row)} />
       )}
     </>
   );

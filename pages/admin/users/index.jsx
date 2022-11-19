@@ -73,7 +73,7 @@ const UsersPage = () => {
   const getAll = useCallback(() => {
     setLoading(true);
     UserService.getAll()
-      .then((res) => console.log(res))
+      .then((res) => setUsers(res))
       .catch((error) => {
         pushNotifications({
           type: 'error',
@@ -86,14 +86,37 @@ const UsersPage = () => {
   }, []);
 
   const updateUser = useCallback((data) => {
-    console.log('updateUser', data);
-    // UsetService.updateUser(data).then((res) => console.log(res)).catch(error => console.log(error.message))
-    // .finally(() => setLoading(false));
+    const usersArray = [...users];
+    const indexUpdUser = users.findIndex((el) => el.id === data.id);
+
+    usersArray[indexUpdUser] = data;
+
+    setUsers(usersArray);
+    setLoading(true);
+
+    UserService.updateUser(data)
+      .then((res) => {
+        pushNotifications({
+          type: 'success',
+          header: 'Успешно!',
+          description: res,
+        });
+        console.log(res);
+      })
+      .catch((error) => {
+        pushNotifications({
+          type: 'error',
+          header: 'Ошибка',
+          description: error.message,
+        });
+        console.log(error);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   function setNewUser(val) {
     updUser = { ...val };
-    console.log('updUser', updUser);
+
     updateUser(updUser);
   }
 
@@ -112,7 +135,6 @@ const UsersPage = () => {
         <Users
           className={styles['users-page_wrapper__table']}
           users={users}
-          updateUsers={(data) => setUsers([...data])}
           updatedUser={(val) => setNewUser(val)}
           loading={loading}
         />

@@ -1,25 +1,31 @@
 import { useRouter } from 'next/router';
 
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useFormik } from 'formik';
 
-import { Button, Input, Loader } from '@components';
-import { toClassName } from '@utils';
-import { currency } from '@mocks/currency';
+import { Button, Input, Loader, Chart } from '@components';
+import { checkUser } from '@middlewares';
+import { useNotifications } from '@hooks';
+import * as CurrencyService from '@api/currency';
+import * as UserService from '@api/user';
 
 import styles from './style.module.scss';
 
 const AddAccount = ({ currency = [] }) => {
   const router = useRouter();
+  const { pushNotifications } = useNotifications();
 
-  const items = useMemo(() => currency.map((el) => ({ value: el, label: el })), [currency]);
+  const items = useMemo(
+    () => currency.map((el) => ({ value: el.currency, label: el.currency })),
+    [currency],
+  );
 
   const [loading, setLoading] = useState(false);
+  const [stat, setStat] = useState(null);
 
   const formik = useFormik({
     initialValues: {
       currency: null,
-      value: 0,
     },
     validate: (data) => {
       const error = {};
@@ -27,25 +33,41 @@ const AddAccount = ({ currency = [] }) => {
       if (!data.currency) {
         error.currency = 'Выберите валюту';
       }
-      if (!data.value && data.value < 0) {
-        error.value = 'Введите сумму';
-      }
 
       return error;
     },
-    onSubmit: () => {
+    onSubmit: (data) => {
       setLoading(true);
-      setLoading(false);
+      UserService.createScoreByUser(data)
+        .then(() => router.push('/user'))
+        .error((err) => {
+          pushNotifications({
+            type: 'error',
+            header: 'Ошибка',
+            description: err.response.data.message,
+          });
+          console.error(err);
+        })
+        .finally(() => setLoading(false));
     },
   });
 
   const onCurrencyChange = useCallback(({ value }) => formik.setFieldValue('currency', value), []);
   const onBack = useCallback(() => router.back(), []);
 
+  useEffect(() => {
+    if (formik.values.currency) {
+      CurrencyService.getRateWithTimes({ base: formik.values.currency })
+        .then((res) => setStat(res.data))
+        .catch((err) => console.error(err));
+    }
+  }, [formik.values.currency]);
+
   return (
     <div className={styles['add-account']}>
       <div className={styles['add-account-container']}>
         <h2>Добавить счет</h2>
+        <Chart data={stat} />
         <form
           className={styles.form}
           onSubmit={(e) => {
@@ -65,18 +87,6 @@ const AddAccount = ({ currency = [] }) => {
               value={formik.values.currency}
               onChange={onCurrencyChange}
               dropdownName="Валюта"
-            />
-          </div>
-          <div className={styles['form-input-container']}>
-            <Input
-              className={toClassName(styles['form-input-container-input'])}
-              typedefault="number"
-              min={0}
-              name="value"
-              value={formik.values.value}
-              onChange={formik.handleChange}
-              placeholder="Сумма"
-              description={formik.errors.value}
             />
           </div>
           <div className={styles['form-buttons']}>
@@ -99,42 +109,30 @@ const AddAccount = ({ currency = [] }) => {
   );
 };
 
-export const getServerSideProps = async ({
-  req: {
-    headers: { cookie },
-  },
-}) => {
-  try {
-    if (cookie) {
-      // let me = await (await UserService.getMe(cookie)).data;
-      const me = {
-        login: 'user',
-        firstName: 'Иван',
-        patronymic: 'Иванович',
-        lastName: 'Иванов',
-        email: 'ivanov@mail.com',
-      };
+export const getServerSideProps = (ctx) =>
+  checkUser(
+    ctx,
+    async ({ user }) => {
+      try {
+        const currency = await (await CurrencyService.getAvailable()).data;
 
-      if (me) {
         return {
           props: {
-            user: me,
-            currency,
+            user,
+            currency: currency.filter((el) => !el.banned),
+          },
+        };
+      } catch (e) {
+        console.error(e);
+        return {
+          redirect: {
+            destination: '/user',
+            permanent: true,
           },
         };
       }
-
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: true,
-        },
-      };
-    }
-  } catch (e) {
-    console.error(e);
-  }
-  return { props: {} };
-};
+    },
+    { redirectToLogin: true },
+  );
 
 export default AddAccount;
