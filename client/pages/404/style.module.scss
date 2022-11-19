@@ -1,0 +1,45 @@
+@import '../../styles/variables';
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 100vw;
+	height: 100vh;
+
+	.root {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		width: 100%;
+		height: 100%;
+
+		& .icon {
+			width: 400px;
+			height: 400px;
+		}
+
+		& .links {
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
+            align-items: center;
+
+			& .link {
+				color: $light_blue;
+
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+
+		&__dark {
+			color: white;
+			background: black;
+		}
+	}
+}
