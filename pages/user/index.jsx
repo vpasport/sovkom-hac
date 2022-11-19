@@ -5,6 +5,7 @@ import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 
 import { UserInfo, Button, Account } from '@components';
+import { checkUser } from '@middlewares';
 
 import styles from './style.module.scss';
 
@@ -53,109 +54,104 @@ const User = ({ user = {}, accounts = [] }) => {
   );
 };
 
-export const getServerSideProps = async ({
-  req: {
-    headers: { cookie },
-  },
-}) => {
-  try {
-    if (cookie) {
-      // let me = await (await UserService.getMe(cookie)).data;
-      const me = {
-        login: 'user',
-        firstName: 'Иван',
-        patronymic: 'Иванович',
-        lastName: 'Иванов',
-        email: 'ivanov@mail.com',
-        date: moment().utcOffset(0, true).format(),
-      };
+export const getServerSideProps = (ctx) =>
+  checkUser(
+    ctx,
+    async ({
+      req: {
+        headers: { cookie },
+      },
+    }) => {
+      console.log(1, cookie);
 
-      const accounts = [
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'RUB',
-          value: 1000,
-          createdAt: moment().format(),
-        },
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'EUR',
-          value: 20,
-          createdAt: moment().format(),
-        },
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'USD',
-          value: 18,
-          createdAt: moment().format(),
-        },
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'RUB',
-          value: 1000,
-          createdAt: moment().format(),
-        },
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'EUR',
-          value: 20,
-          createdAt: moment().format(),
-        },
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'USD',
-          value: 18,
-          createdAt: moment().format(),
-        },
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'RUB',
-          value: 1000,
-          createdAt: moment().format(),
-        },
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'EUR',
-          value: 20,
-          createdAt: moment().format(),
-        },
-        {
-          id: uuid(),
-          number: uuid(),
-          currency: 'USD',
-          value: 18,
-          createdAt: moment().format(),
-        },
-      ];
-
-      if (me) {
-        return {
-          props: {
-            user: me,
-            accounts,
-          },
+      if (cookie) {
+        const me = {
+          login: 'user',
+          firstName: 'Иван',
+          patronymic: 'Иванович',
+          lastName: 'Иванов',
+          email: 'ivanov@mail.com',
+          date: moment().utcOffset(0, true).format(),
         };
-      }
 
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: true,
-        },
-      };
-    }
-  } catch (e) {
-    console.error(e);
-  }
-  return { props: {} };
-};
+        const accounts = [
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'RUB',
+            value: 1000,
+            createdAt: moment().format(),
+          },
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'EUR',
+            value: 20,
+            createdAt: moment().format(),
+          },
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'USD',
+            value: 18,
+            createdAt: moment().format(),
+          },
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'RUB',
+            value: 1000,
+            createdAt: moment().format(),
+          },
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'EUR',
+            value: 20,
+            createdAt: moment().format(),
+          },
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'USD',
+            value: 18,
+            createdAt: moment().format(),
+          },
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'RUB',
+            value: 1000,
+            createdAt: moment().format(),
+          },
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'EUR',
+            value: 20,
+            createdAt: moment().format(),
+          },
+          {
+            id: uuid(),
+            number: uuid(),
+            currency: 'USD',
+            value: 18,
+            createdAt: moment().format(),
+          },
+        ];
+
+        if (me) {
+          return {
+            props: {
+              user: me,
+              accounts,
+            },
+          };
+        }
+      }
+      return { props: {} };
+    },
+    { redirectToLogin: true },
+  );
 
 export default User;
