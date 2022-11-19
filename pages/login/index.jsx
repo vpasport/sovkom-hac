@@ -35,28 +35,48 @@ const LoginPage = () => {
 
   const onSignup = useCallback((data) => {
     setLoading(true);
-    UserService.signIn(data)
-      .then((res) => console.log(res))
+    UserService.registration(data)
+      .then((res) => {
+        if (res.status !== 200) {
+          pushNotifications({
+            type: 'error',
+            header: 'Ошибка',
+            description: res.data.message,
+          });
+        } else {
+          setSignup(false);
+        }
+      })
+      .catch((err) => {
+        pushNotifications({
+          type: 'error',
+          header: 'Ошибка',
+          description: err.response.data.message,
+        });
+        console.error(err);
+      })
       .finally(() => setLoading(false));
   }, []);
 
   return (
-    <div className={toClassName(styles.root, signup && styles.root_signup)}>
-      <Svg type="loginicon" className={toClassName(styles.icon, signup && styles.icon_mini)} />
-      {signup ? (
-        <Forms.SignUpForm
-          onSubmit={(data) => onSignup(data)}
-          onCancel={() => setSignup(false)}
-          loading={loading}
-        />
-      ) : (
-        <>
-          <Forms.LoginForm onSubmit={(data) => onLogin(data)} loading={loading} />
-          <Button type="text" onClick={() => setSignup(true)}>
-            Зарегистрироваться
-          </Button>
-        </>
-      )}
+    <div className={styles.container}>
+      <div className={toClassName(styles.root, signup && styles.root_signup)}>
+        <Svg type="loginicon" className={toClassName(styles.icon, signup && styles.icon_mini)} />
+        {signup ? (
+          <Forms.SignUpForm
+            onSubmit={(data) => onSignup(data)}
+            onCancel={() => setSignup(false)}
+            loading={loading}
+          />
+        ) : (
+          <>
+            <Forms.LoginForm onSubmit={(data) => onLogin(data)} loading={loading} />
+            <Button type="text" onClick={() => setSignup(true)}>
+              Зарегистрироваться
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
@@ -68,7 +88,7 @@ export const getServerSideProps = (ctx) =>
       if (user !== null) {
         return {
           redirect: {
-            destination: '/user',
+            destination: `/${user.role}`,
             permanent: true,
           },
         };
