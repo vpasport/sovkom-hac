@@ -12,9 +12,11 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import styles from './styles.module.scss';
 
-const Table = ({ columns = [], items = [], toggle }) => {
+const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
   const changeStatus = (data, prop, value) => {
     const newData = data;
+
+    updatedRow(newData);
     newData[prop] = value;
 
     return toggle(items);

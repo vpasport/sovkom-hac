@@ -1,41 +1,8 @@
-import { useState } from 'react';
+import { Table, Loader } from '@components';
 
-import { Table } from '@components';
+import styles from './style.module.scss';
 
-const Users = () => {
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      login: 'anyalozovaya@mail.ru',
-      first_name: 'Анна',
-      last_name: 'Лозовая',
-      patronymic: 'Яковлевна',
-      birthday: '08.12.1999',
-      verified: true,
-      blocked: false,
-    },
-    {
-      id: 1,
-      login: 'kdsj@mail.ru',
-      first_name: 'Геннадий',
-      last_name: 'Петров',
-      patronymic: 'Ибрагимович',
-      birthday: '18.02.1979',
-      verified: true,
-      blocked: true,
-    },
-    {
-      id: 2,
-      login: 'kdaaadjdhadhsj@mail.ru',
-      first_name: 'Алефтина',
-      last_name: 'Семенова',
-      patronymic: 'Олеговна',
-      birthday: '01.01.1947',
-      verified: false,
-      blocked: false,
-    },
-  ]);
-
+const Users = ({ users = [], loading = false, updateUsers, updatedUser }) => {
   const columns = [
     {
       id: 0,
@@ -75,9 +42,20 @@ const Users = () => {
   ];
 
   return (
-    <div>
-      <Table columns={columns} items={items} toggle={(data) => setItems([...data])} />
-    </div>
+    <>
+      {loading ? (
+        <div className={styles.users_loader}>
+          <Loader />
+        </div>
+      ) : (
+        <Table
+          columns={columns}
+          items={users}
+          toggle={(data) => updateUsers(data)}
+          updatedRow={(row) => updatedUser(row)}
+        />
+      )}
+    </>
   );
 };
 
