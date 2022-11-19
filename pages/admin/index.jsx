@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { checkUser } from '@middlewares';
+
 // import { FiChevronLeft } from 'react-icons/fi';
 
 import { Button, CurrencyManagement } from '@components';
@@ -95,28 +97,23 @@ const AdminPage = () => {
     </div>
   );
 };
-// export const getServerSideProps = async ({
-//   req: {
-//     headers: { cookie },
-//   },
-// }) => {
-//   try {
-//     if (cookie) {
-//       const me = await (await UsetService.getMe(cookie)).data;
 
-//       console.log(me);
+export const getServerSideProps = (ctx) =>
+  checkUser(
+    ctx,
+    async ({ user }) => {
+      if (user !== null) {
+        return {
+          redirect: {
+            destination: `/${user.role}`,
+            permanent: true,
+          },
+        };
+      }
 
-//       return {
-//         redirect: {
-//           destination: '/main',
-//           permanent: true,
-//         },
-//       };
-//     }
-//   } catch (e) {
-//     console.error(e);
-//   }
-//   return { props: {} };
-// };
+      return { props: {} };
+    },
+    { redirectToLogin: false },
+  );
 
 export default AdminPage;

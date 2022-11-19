@@ -50,11 +50,11 @@ const Users = ({ users = [], loading = false, updateUsers, updatedUser }) => {
       header: 'Верифицикация',
       field: 'verify',
     },
-    {
-      id: 6,
-      header: '',
-      field: 'blocked',
-    },
+    // {
+    //   id: 6,
+    //   header: '',
+    //   field: 'blocked',
+    // },
   ];
 
   return (

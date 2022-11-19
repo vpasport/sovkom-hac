@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { Users, Button } from '@components';
 
 import * as UserService from '@api/user';
+import { checkUser } from '@middlewares';
+import { useNotifications } from '@hooks';
 
 import { FiChevronLeft } from 'react-icons/fi';
 
@@ -11,6 +13,7 @@ import styles from './style.module.scss';
 
 const UsersPage = () => {
   const router = useRouter();
+  const { pushNotifications } = useNotifications();
 
   const [loading, setLoading] = useState(false);
   let updUser = {};
@@ -71,7 +74,14 @@ const UsersPage = () => {
     setLoading(true);
     UserService.getAll()
       .then((res) => console.log(res))
-      .catch((error) => console.log(error.message))
+      .catch((error) => {
+        pushNotifications({
+          type: 'error',
+          header: 'Ошибка',
+          description: error.message,
+        });
+        console.log(error);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -110,28 +120,23 @@ const UsersPage = () => {
     </div>
   );
 };
-// export const getServerSideProps = async ({
-//   req: {
-//     headers: { cookie },
-//   },
-// }) => {
-//   try {
-//     if (cookie) {
-//       const me = await (await UsetService.getMe(cookie)).data;
 
-//       console.log(me);
+export const getServerSideProps = (ctx) =>
+  checkUser(
+    ctx,
+    async ({ user }) => {
+      if (user !== null) {
+        return {
+          redirect: {
+            destination: `/${user.role}`,
+            permanent: true,
+          },
+        };
+      }
 
-//       return {
-//         redirect: {
-//           destination: '/main',
-//           permanent: true,
-//         },
-//       };
-//     }
-//   } catch (e) {
-//     console.error(e);
-//   }
-//   return { props: {} };
-// };
+      return { props: {} };
+    },
+    { redirectToLogin: false },
+  );
 
 export default UsersPage;
