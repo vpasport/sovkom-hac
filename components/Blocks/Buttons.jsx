@@ -12,11 +12,7 @@ const ButtonsBlock = () => (
   >
     <h3>Кнопки:</h3>
     <Button onClick={() => console.log('default')}>Default</Button>
-    <Button
-      onClick={() => console.log('default disabled')}
-      disabled
-      leftIcon={FiChevronLeft}
-    >
+    <Button onClick={() => console.log('default disabled')} disabled leftIcon={FiChevronLeft}>
       Default
     </Button>
     <Button type="border" onClick={() => console.log('border')}>

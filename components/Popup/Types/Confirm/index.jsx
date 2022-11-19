@@ -2,12 +2,7 @@ import { Button, Svg } from '@components';
 
 import styles from './style.module.scss';
 
-const ConfirmPopup = ({
-  children,
-  toggle,
-  buttonPopupConfirm,
-  buttonPopupDelete,
-}) => (
+const ConfirmPopup = ({ children, toggle, buttonPopupConfirm, buttonPopupDelete }) => (
   <div className={styles['popup-confirm']}>
     <div className={styles['popup-confirm_circle']}>
       <Svg type="confirm" className={styles['popup-confirm_circle__icon']} />

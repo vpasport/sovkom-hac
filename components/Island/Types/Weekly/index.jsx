@@ -34,9 +34,7 @@ const WeeklyIsland = ({
     <div className={styles.island_content}>
       <div className={styles.island_content_text}>
         <span className={styles.island_content_text_header}>{header}</span>
-        <span className={styles.island_content_text_description}>
-          {description}
-        </span>
+        <span className={styles.island_content_text_description}>{description}</span>
       </div>
       <div className={styles.island_content_footer}>
         <Button
@@ -48,10 +46,7 @@ const WeeklyIsland = ({
         </Button>
         {price && (
           <div className={styles.island_content_footer_price}>
-            <RiCopperCoinFill
-              size={24}
-              className={styles.island_content_footer_price_icon}
-            />
+            <RiCopperCoinFill size={24} className={styles.island_content_footer_price_icon} />
             <span>{price}</span>
           </div>
         )}
