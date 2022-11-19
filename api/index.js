@@ -5,7 +5,11 @@ import { getCookie } from '@utils';
 export const userApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_USER_API_URL,
   withCredentials: false,
-  mode: 'no-cors',
+});
+
+export const currencyApi = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_CURRENCY_API_URL,
+  withCredentials: false,
 });
 
 export const createHeaders = ({ cookie, contentType = 'json' }) => {

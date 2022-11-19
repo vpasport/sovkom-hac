@@ -23,4 +23,7 @@ const getAll = () => userApi.get('/getUsers');
 
 const updateUser = (data) => userApi.post('/updateUser', data);
 
-export { getMe, signIn, registration, getAll, updateUser, logout };
+const createScoreByUser = (data) =>
+  userApi.post('/createScoreByUser', data, { headers: createHeaders({ cookie: document.cookie }) });
+
+export { getMe, signIn, registration, getAll, updateUser, logout, createScoreByUser };
