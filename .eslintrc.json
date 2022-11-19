@@ -113,6 +113,7 @@
         "peerDependencies": false
       }
     ],
+    "react/display-name": "off",
     "quotes": ["error", "single"],
     "semi": "off",
     "react-hooks/exhaustive-deps": "warn",
