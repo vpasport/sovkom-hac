@@ -36,7 +36,7 @@ const Table = ({ columns = [], items = [], toggle }) => {
       {!rowData.verified && (
         <Button onClick={() => changeStatus(rowData, 'verified', true)}>Подтвердить</Button>
       )}
-      {!rowData.blocked ? (
+      {!rowData.blocked && rowData.verified ? (
         <Popup
           type="confirm"
           button="button"
@@ -50,12 +50,14 @@ const Table = ({ columns = [], items = [], toggle }) => {
           Вы хотите заблокировать пользователя?
         </Popup>
       ) : (
-        <Button
-          className={styles.table_btn__unblock}
-          onClick={() => changeStatus(rowData, 'blocked', false)}
-        >
-          Разблокировать
-        </Button>
+        rowData.verified && (
+          <Button
+            className={styles.table_btn__unblock}
+            onClick={() => changeStatus(rowData, 'blocked', false)}
+          >
+            Разблокировать
+          </Button>
+        )
       )}
     </>
   );
