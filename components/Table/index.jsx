@@ -35,10 +35,10 @@ const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
 
   const actionBodyTemplate = (rowData) => (
     <>
-      {!rowData.verify && (
+      {/* eslint-disable  */}
+      {!rowData.verify ? (
         <Button onClick={() => changeStatus(rowData, 'verify', true)}>Подтвердить</Button>
-      )}
-      {!rowData.blocked && rowData.verify ? (
+      ) : !rowData.blocked ? (
         <Popup
           type="confirm"
           button="button"
@@ -52,15 +52,14 @@ const Table = ({ columns = [], items = [], toggle, updatedRow }) => {
           Вы хотите заблокировать пользователя?
         </Popup>
       ) : (
-        rowData.verify && (
-          <Button
-            className={styles.table_btn__unblock}
-            onClick={() => changeStatus(rowData, 'blocked', false)}
-          >
-            Разблокировать
-          </Button>
-        )
+        <Button
+          className={styles.table_btn__unblock}
+          onClick={() => changeStatus(rowData, 'blocked', false)}
+        >
+          Разблокировать
+        </Button>
       )}
+      {/* eslint-unable  */}
     </>
   );
 
