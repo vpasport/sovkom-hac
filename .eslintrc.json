@@ -52,6 +52,7 @@
     "operator-linebreak": "off",
     "import/no-cycle": "warn",
     "react/prop-types": "off",
+    "consistent-return": "warn",
     "react/react-in-jsx-scope": "off",
     "react/jsx-no-useless-fragment": "off",
     // "react/jsx-props-no-spreading": "warn",
@@ -71,11 +72,7 @@
     "react/function-component-definition": [
       1,
       {
-        "namedComponents": [
-          "function-declaration",
-          "function-expression",
-          "arrow-function"
-        ]
+        "namedComponents": ["function-declaration", "function-expression", "arrow-function"]
       }
     ],
     "prettier/prettier": [
@@ -86,7 +83,7 @@
         "singleQuote": true,
         "bracketSameLine": false,
         "useTabs": false,
-        "printWidth": 80,
+        "printWidth": 100,
         "trailingComma": "all",
         "bracketSpacing": true,
         "arrowParens": "always",
@@ -97,15 +94,11 @@
         "usePrettierrc": false
       }
     ],
-    "max-len": [1, { "code": 120 }],
+    "max-len": [1, { "code": 100 }],
     "object-curly-spacing": ["error", "always"],
     "no-unused-expressions": "off",
     "no-shadow": "off",
-    "indent": [
-      "warn",
-      2,
-      { "SwitchCase": 1, "ignoredNodes": ["ConditionalExpression"] }
-    ],
+    "indent": ["warn", 2, { "SwitchCase": 1, "ignoredNodes": ["ConditionalExpression"] }],
     "import/newline-after-import": "off",
     "padding-line-between-statements": [
       "error",
@@ -123,10 +116,7 @@
     "quotes": ["error", "single"],
     "semi": "off",
     "react-hooks/exhaustive-deps": "warn",
-    "react/jsx-filename-extension": [
-      1,
-      { "extensions": [".js", ".jsx", ".tsx"] }
-    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
     "linebreak-style": "off",
     "import/extensions": "off",
     "import/prefer-default-export": "off",

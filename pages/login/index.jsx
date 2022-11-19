@@ -17,14 +17,16 @@ const LoginPage = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const onSignup = useCallback(() => {}, []);
+  const onSignup = useCallback((data) => {
+    setLoading(true);
+    UsetService.signIn(data)
+      .then((res) => console.log(res))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div className={toClassName(styles.root, signup && styles.root_signup)}>
-      <Svg
-        type="loginicon"
-        className={toClassName(styles.icon, signup && styles.icon_mini)}
-      />
+      <Svg type="loginicon" className={toClassName(styles.icon, signup && styles.icon_mini)} />
       {signup ? (
         <Forms.SignUpForm
           onSubmit={(data) => onSignup(data)}
@@ -33,10 +35,7 @@ const LoginPage = () => {
         />
       ) : (
         <>
-          <Forms.LoginForm
-            onSubmit={(data) => onLogin(data)}
-            loading={loading}
-          />
+          <Forms.LoginForm onSubmit={(data) => onLogin(data)} loading={loading} />
           <Button type="text" onClick={() => setSignup(true)}>
             Зарегистрироваться
           </Button>
@@ -44,6 +43,30 @@ const LoginPage = () => {
       )}
     </div>
   );
+};
+
+export const getServerSideProps = async ({
+  req: {
+    headers: { cookie },
+  },
+}) => {
+  try {
+    if (cookie) {
+      const me = await (await UsetService.getMe(cookie)).data;
+
+      console.log(me);
+
+      return {
+        redirect: {
+          destination: '/main',
+          permanent: true,
+        },
+      };
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return { props: {} };
 };
 
 export default LoginPage;
