@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import { checkUser } from '@middlewares';
+import * as UserService from '@api/user';
 import * as CurrencyService from '@api/currency';
 import { useNotifications } from '@hooks';
 
@@ -30,15 +31,14 @@ const AdminPage = ({ currency = [] }) => {
       });
   }, []);
 
-  const changeStatus = useCallback((data) => {
-    CurrencyService.changeStatus(data)
+  const banCurrency = useCallback((data) => {
+    UserService.banCurrency(data)
       .then((res) => {
         pushNotifications({
           type: 'success',
           header: 'Успешно!',
-          description: res,
+          description: res.statusText,
         });
-        console.log(res);
       })
       .catch((error) => {
         pushNotifications({
@@ -58,7 +58,7 @@ const AdminPage = ({ currency = [] }) => {
     // updCurrency.started = val;
     updCurrency.banned = !val;
 
-    changeStatus(updCurrency);
+    banCurrency(updCurrency);
   }
 
   return (

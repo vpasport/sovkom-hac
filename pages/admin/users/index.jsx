@@ -19,10 +19,11 @@ const UsersPage = ({ users: serverSideUsers = [] }) => {
   let updUser = {};
   const [users, setUsers] = useState(serverSideUsers);
 
-  const getAll = useCallback(() => {
-    setLoading(true);
+  const getAll = useCallback((id) => {
     UserService.getAll()
-      .then((res) => setUsers(res.data))
+      .then((res) => {
+        setUsers(res.data.filter((item) => item.id !== id));
+      })
       .catch((error) => {
         pushNotifications({
           type: 'error',
@@ -42,9 +43,8 @@ const UsersPage = ({ users: serverSideUsers = [] }) => {
         pushNotifications({
           type: 'success',
           header: 'Успешно!',
-          description: res,
+          description: res.statusText,
         });
-        console.log(res);
       })
       .catch((error) => {
         pushNotifications({
@@ -55,8 +55,9 @@ const UsersPage = ({ users: serverSideUsers = [] }) => {
         console.log(error);
       })
       .finally(() => {
-        getAll();
-        setLoading(false);
+        UserService.getMe()
+          .then((res) => getAll(res.data.id))
+          .catch((err) => console.log(err));
       });
   }, []);
 
@@ -105,7 +106,9 @@ export const getServerSideProps = (ctx) =>
       }
 
       try {
-        const users = await (await UserService.getAll(cookie)).data;
+        const users = await (
+          await UserService.getAll(cookie)
+        ).data.filter((item) => item.id !== user.id);
 
         return {
           props: {
