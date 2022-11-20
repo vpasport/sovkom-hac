@@ -124,10 +124,10 @@ export const getServerSideProps = (ctx) =>
   checkUser(
     ctx,
     async ({ user }) => {
-      if (user !== null) {
+      if (user === null || user.role !== 'amdin') {
         return {
           redirect: {
-            destination: `/${user.role}`,
+            destination: '/login',
             permanent: true,
           },
         };
