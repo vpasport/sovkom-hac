@@ -211,7 +211,9 @@ export const getServerSideProps = (ctx) =>
     }) => {
       try {
         const currency = await (await CurrencyService.getAvailable()).data;
-        const history = await (await UserService.getOperationHistory(id, cookie)).data;
+        const history = await (
+          await UserService.getOperationHistory(id, cookie)
+        ).data.filter((el) => !!el.additionalScoreUuid);
 
         return {
           props: {
