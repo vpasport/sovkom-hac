@@ -19,13 +19,22 @@ const UsersPage = ({ users: serverSideUsers = [] }) => {
   let updUser = {};
   const [users, setUsers] = useState(serverSideUsers);
 
+  const getAll = useCallback(() => {
+    setLoading(true);
+    UserService.getAll()
+      .then((res) => setUsers(res.data))
+      .catch((error) => {
+        pushNotifications({
+          type: 'error',
+          header: 'Ошибка',
+          description: error.message,
+        });
+        console.log(error);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   const updateUser = useCallback((data) => {
-    const usersArray = [...users];
-    const indexUpdUser = users.findIndex((el) => el.id === data.id);
-
-    usersArray[indexUpdUser] = data;
-
-    setUsers(usersArray);
     setLoading(true);
 
     UserService.updateUser(data)
@@ -45,7 +54,10 @@ const UsersPage = ({ users: serverSideUsers = [] }) => {
         });
         console.log(error);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        getAll();
+        setLoading(false);
+      });
   }, []);
 
   function setNewUser(val) {

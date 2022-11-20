@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { currencyApi } from '.';
+import { currencyApi, createHeaders } from '.';
 
 const getAvailable = () => currencyApi.get('/available');
 
@@ -20,4 +20,7 @@ const getRateWithTimes = ({
   return currencyApi.get(`/time-series?${params}`);
 };
 
-export { getAvailable, getRateWithTimes };
+const changeStatus = (data) =>
+  currencyApi.post('/change-status', data, { headers: createHeaders({ cookie: document.cookie }) });
+
+export { getAvailable, getRateWithTimes, changeStatus };
