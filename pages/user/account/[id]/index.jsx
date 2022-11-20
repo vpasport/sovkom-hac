@@ -100,8 +100,6 @@ const Account = ({ user, currency = [], history: historyFromServer = [] }) => {
       .finally(() => setTransactionLoading(false));
   }, [score, value, selectedCurrency]);
 
-  console.log(history);
-
   return (
     <div className={styles.main}>
       <div className={styles.container}>
