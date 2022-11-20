@@ -1,8 +1,10 @@
 import { setCookie, eraseCookie } from '@utils';
+import axios from 'axios';
 
 import { userApi, createHeaders } from '.';
 
-const getMe = (cookie) => userApi.get('/me', { headers: createHeaders({ cookie }) });
+const getMe = (cookie = null) =>
+  userApi.get('/me', { headers: createHeaders({ cookie: cookie || document.cookie }) });
 
 const signIn = (data) =>
   userApi.post('/signIn', data).then((res) => {
@@ -19,7 +21,8 @@ const logout = () =>
 
 const registration = (data) => userApi.post('/registration', data);
 
-const getAll = () => userApi.get('/getUsers');
+const getAll = (coockie = null) =>
+  userApi.get('/getUsers', { headers: createHeaders({ cookie: coockie || document.cookie }) });
 
 const updateUser = (data) => userApi.post('/updateUser', data);
 
@@ -32,6 +35,11 @@ const deleteScore = (data) =>
 const updateScore = (data) =>
   userApi.post('/updateScore', data, { headers: createHeaders({ cookie: document.cookie }) });
 
+const getOperationHistory = (id) =>
+  axios.get(`/getHistoryByScoreUuid?uuid=${id}`, {
+    headers: createHeaders({ cookie: document.cookie }),
+  });
+
 export {
   getMe,
   signIn,
@@ -42,4 +50,5 @@ export {
   createScoreByUser,
   deleteScore,
   updateScore,
+  getOperationHistory,
 };

@@ -27,7 +27,9 @@ const LoginPage = () => {
             description: 'Ваша регистрация не подтверждена',
           });
         } else {
-          router.push('/user');
+          UserService.getMe()
+            .then((res) => router.push(`/${res.data.role}`))
+            .catch((err) => console.log(err));
         }
       })
       .catch((err) => {

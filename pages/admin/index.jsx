@@ -1,61 +1,20 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { checkUser } from '@middlewares';
 import * as CurrencyService from '@api/currency';
-import { useNotifications } from '@hooks';
+// import { FiChevronLeft } from 'react-icons/fi';
 
-import { Button, CurrencyManagement, Loader } from '@components';
+import { Button, CurrencyManagement } from '@components';
 
 import styles from './style.module.scss';
 
-const AdminPage = () => {
-  const router = useRouter();
-  const { pushNotifications } = useNotifications();
+// import * as UsetService from '@api/user';
 
-  const [loading, setLoading] = useState(false);
-  const [currencies, setCurrencies] = useState([
-    {
-      id: 0,
-      name: 'Доллар',
-      started: false,
-    },
-    {
-      id: 1,
-      name: 'Рубль',
-      started: true,
-    },
-    {
-      id: 2,
-      name: 'Доллар',
-      started: false,
-    },
-    {
-      id: 3,
-      name: 'Рубль',
-      started: true,
-    },
-    {
-      id: 4,
-      name: 'Доллар',
-      started: false,
-    },
-    {
-      id: 5,
-      name: 'Рубль',
-      started: true,
-    },
-    {
-      id: 6,
-      name: 'Доллар',
-      started: false,
-    },
-    {
-      id: 7,
-      name: 'Рубль',
-      started: true,
-    },
-  ]);
+const AdminPage = ({ currency = [] }) => {
+  const router = useRouter();
+
+  const [currencies, setCurrencies] = useState(currency);
 
   function setValueCurrency(val, item) {
     const data = JSON.parse(JSON.stringify(currencies));
@@ -66,24 +25,8 @@ const AdminPage = () => {
     setCurrencies(data);
   }
 
-  const getAvailable = useCallback(() => {
-    setLoading(true);
-    CurrencyService.getAvailable()
-      .then((res) => setCurrencies(res))
-      .catch((error) => {
-        pushNotifications({
-          type: 'error',
-          header: 'Ошибка',
-          description: error.message,
-        });
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  useEffect(() => {
-    getAvailable();
-  }, []);
+  // const [loading, setLoading] = useState(false);
+  // const updUser = {};
 
   return (
     <div className={styles['admin-page']}>
@@ -100,20 +43,14 @@ const AdminPage = () => {
       <div className={styles['admin-page_wrapper']}>
         <h2 className={styles['admin-page_wrapper__title']}>Управление валютами</h2>
         <div className={styles['admin-page_wrapper__currs']}>
-          {loading ? (
-            <div className={styles.users_loader}>
-              <Loader />
-            </div>
-          ) : (
-            !!currencies &&
+          {!!currencies &&
             currencies.map((item) => (
               <CurrencyManagement
                 key={item.id}
                 currency={item}
                 toggle={(val) => setValueCurrency(val, item)}
               />
-            ))
-          )}
+            ))}
         </div>
       </div>
     </div>
@@ -124,7 +61,7 @@ export const getServerSideProps = (ctx) =>
   checkUser(
     ctx,
     async ({ user }) => {
-      if (user === null || user.role !== 'amdin') {
+      if (user === null || user.role !== 'admin') {
         return {
           redirect: {
             destination: '/login',
@@ -133,9 +70,16 @@ export const getServerSideProps = (ctx) =>
         };
       }
 
-      return { props: {} };
+      try {
+        const currency = await (await CurrencyService.getAvailable()).data;
+
+        return { props: { currency } };
+      } catch (e) {
+        console.error(e);
+        return { props: { currency: [] } };
+      }
     },
-    { redirectToLogin: false },
+    { redirectToLogin: true },
   );
 
 export default AdminPage;
