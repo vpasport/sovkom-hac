@@ -36,9 +36,9 @@ const deleteScore = (data) =>
 const updateScore = (data) =>
   userApi.post('/updateScore', data, { headers: createHeaders({ cookie: document.cookie }) });
 
-const getOperationHistory = (id) =>
-  axios.get(`/getHistoryByScoreUuid?uuid=${id}`, {
-    headers: createHeaders({ cookie: document.cookie }),
+const getOperationHistory = (id, coockie = null) =>
+  userApi.get(`/getHistoryByScoreUuid?uuid=${id}`, {
+    headers: createHeaders({ cookie: coockie || document.cookie }),
   });
 
 const currencyOperation = (data) =>

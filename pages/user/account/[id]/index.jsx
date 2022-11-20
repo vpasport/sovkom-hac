@@ -4,7 +4,7 @@ import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import moment from 'moment';
 
-import { Chart, Input, Account as Score, Transaction } from '@components';
+import { Chart, Input, Account as Score, Transaction, History } from '@components';
 import { checkUser } from '@middlewares';
 import * as CurrencyService from '@api/currency';
 import * as UserService from '@api/user';
@@ -12,7 +12,7 @@ import { useNotifications } from '@hooks';
 
 import styles from './style.module.scss';
 
-const Account = ({ user, currency = [] }) => {
+const Account = ({ user, currency = [], history: historyFromServer = [] }) => {
   const router = useRouter();
   const { pushNotifications } = useNotifications();
 
@@ -21,6 +21,7 @@ const Account = ({ user, currency = [] }) => {
     [],
   );
 
+  const [history, setHistory] = useState(historyFromServer);
   const [score, setScore] = useState(user.userScore.find((el) => el.uuid === router.query.id));
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -65,6 +66,11 @@ const Account = ({ user, currency = [] }) => {
   const onTransaction = useCallback(() => {
     setTransactionLoading(true);
 
+    if (parseFloat(value) === 0) {
+      setTransactionLoading(false);
+      return;
+    }
+
     UserService.currencyOperation({
       userId: user.id,
       fromCurrency: score.currency,
@@ -76,11 +82,12 @@ const Account = ({ user, currency = [] }) => {
           type: 'success',
           description: 'Транзакция прошла успешно',
         });
-        console.log(res.data.historyRes.find((el) => el.scoreUuid === score.uuid).value);
+        const elem = res.data.historyRes.find((el) => el.scoreUuid === score.uuid);
         setScore((prev) => ({
           ...prev,
-          value: prev.value - res.data.historyRes.find((el) => el.scoreUuid === score.uuid).value,
+          value: prev.value - elem.value,
         }));
+        setHistory((prev) => [elem, ...prev]);
       })
       .catch((err) => {
         pushNotifications({
@@ -92,6 +99,8 @@ const Account = ({ user, currency = [] }) => {
       })
       .finally(() => setTransactionLoading(false));
   }, [score, value, selectedCurrency]);
+
+  console.log(history);
 
   return (
     <div className={styles.main}>
@@ -150,6 +159,22 @@ const Account = ({ user, currency = [] }) => {
               onTransaction={onTransaction}
             />
           </div>
+          {history.length > 0 && (
+            <div className={styles['content-history']}>
+              <h2>История:</h2>
+              {history.map((el) => (
+                <History
+                  key={el.createAt}
+                  createAt={el.createAt}
+                  fromCurrency={el.fromCurrency}
+                  scoreUuid={el.scoreUuid}
+                  toCurrency={el.toCurrency}
+                  value={el.value}
+                  additionalScoreUuid={el.additionalScoreUuid}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -159,15 +184,22 @@ const Account = ({ user, currency = [] }) => {
 export const getServerSideProps = (ctx) =>
   checkUser(
     ctx,
-    async ({ user }) => {
+    async ({
+      user,
+      req: {
+        headers: { cookie },
+      },
+      params: { id },
+    }) => {
       try {
         const currency = await (await CurrencyService.getAvailable()).data;
-        // const history = await (await UserService)
+        const history = await (await UserService.getOperationHistory(id, cookie)).data;
 
         return {
           props: {
             user,
             currency: currency.filter((el) => !el.banned),
+            history,
           },
         };
       } catch (e) {
