@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { Users, Button } from '@components';
@@ -11,79 +11,13 @@ import { FiChevronLeft } from 'react-icons/fi';
 
 import styles from './style.module.scss';
 
-const UsersPage = () => {
+const UsersPage = ({ users: serverSideUsers = [] }) => {
   const router = useRouter();
   const { pushNotifications } = useNotifications();
 
   const [loading, setLoading] = useState(false);
   let updUser = {};
-  const [users, setUsers] = useState([
-    {
-      login: 'gavno13',
-      id: 8,
-      verify: 0,
-      role: 'user',
-      rights: null,
-      createdAt: '2022-11-19T04:52:13.648Z',
-      deletedAt: null,
-      additionalFields: null,
-    },
-    {
-      login: 'gavno228',
-      id: 9,
-      verify: 1,
-      role: 'user',
-      rights: null,
-      createdAt: '2022-11-19T06:27:57.504Z',
-      deletedAt: null,
-      additionalFields: {
-        id: 6,
-        deletedAt: null,
-        createdAt: '2022-11-19T05:05:06.696Z',
-        updatedAt: '2022-11-19T05:05:06.696Z',
-        lastName: 'neo4en',
-        firstName: 'loh',
-        secondName: 'olen',
-        codeWord: 'allah velik',
-        dateOfBirth: '1992-10-23T00:00:00.000Z',
-      },
-    },
-    {
-      login: 'gavno22',
-      id: 3,
-      verify: 1,
-      role: 'user',
-      rights: null,
-      createdAt: '2022-11-18T18:36:13.353Z',
-      deletedAt: '2022-11-19T06:39:42.591Z',
-      additionalFields: {
-        id: 3,
-        deletedAt: null,
-        createdAt: '2022-11-18T21:40:42.326Z',
-        updatedAt: '2022-11-19T05:36:49.981Z',
-        lastName: 'neo4en',
-        firstName: 'loh',
-        secondName: 'olen',
-        codeWord: 'allah velik',
-        dateOfBirth: '1992-10-23T00:00:00.000Z',
-      },
-    },
-  ]);
-
-  const getAll = useCallback(() => {
-    setLoading(true);
-    UserService.getAll()
-      .then((res) => setUsers(res))
-      .catch((error) => {
-        pushNotifications({
-          type: 'error',
-          header: 'Ошибка',
-          description: error.message,
-        });
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  const [users, setUsers] = useState(serverSideUsers);
 
   const updateUser = useCallback((data) => {
     const usersArray = [...users];
@@ -120,9 +54,6 @@ const UsersPage = () => {
     updateUser(updUser);
   }
 
-  useEffect(() => {
-    getAll();
-  }, []);
   return (
     <div className={styles['users-page']}>
       <section className={styles['users-page_btns']}>
@@ -146,8 +77,13 @@ const UsersPage = () => {
 export const getServerSideProps = (ctx) =>
   checkUser(
     ctx,
-    async ({ user }) => {
-      if (user === null || user.role !== 'amdin') {
+    async ({
+      user,
+      req: {
+        headers: { cookie },
+      },
+    }) => {
+      if (user === null || user.role !== 'admin') {
         return {
           redirect: {
             destination: '/login',
@@ -156,9 +92,24 @@ export const getServerSideProps = (ctx) =>
         };
       }
 
-      return { props: {} };
+      try {
+        const users = await (await UserService.getAll(cookie)).data;
+
+        return {
+          props: {
+            users,
+          },
+        };
+      } catch (e) {
+        console.error(e);
+        return {
+          props: {
+            users: [],
+          },
+        };
+      }
     },
-    { redirectToLogin: false },
+    { redirectToLogin: true },
   );
 
 export default UsersPage;

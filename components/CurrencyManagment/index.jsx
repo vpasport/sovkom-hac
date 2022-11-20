@@ -4,9 +4,9 @@ import styles from './style.module.scss';
 
 const CurrencyManagement = ({ currency, toggle }) => (
   <div className={styles['currency-settings']}>
-    <h3 className={styles['currency-settings_name']}>{currency.name}</h3>
+    <h3 className={styles['currency-settings_name']}>{currency.currency}</h3>
 
-    {currency.started ? (
+    {!currency.banned ? (
       <Button className={styles['currency-settings_btn--stop']} onClick={() => toggle(false)}>
         Приостановить
       </Button>
