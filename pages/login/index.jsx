@@ -45,11 +45,11 @@ const LoginPage = () => {
     setLoading(true);
     UserService.registration(data)
       .then((res) => {
-        if (res.status !== 200) {
+        if (res.status !== 201) {
           pushNotifications({
             type: 'error',
             header: 'Ошибка',
-            description: res.data.message,
+            description: res?.data?.message,
           });
         } else {
           setSignup(false);
