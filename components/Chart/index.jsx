@@ -45,18 +45,37 @@ const Chart = ({ data = null }) => {
 
   useEffect(() => {
     if (data) {
-      const { rates, base } = data;
+      const { rates, predictions } = data;
+
+      const labels = Object.keys(rates)
+        .concat(Object.keys(predictions))
+        .map((el) => moment(el).format('YYYY-MM-DD'));
+
+      const realRates = [...Object.values(rates)].concat(
+        Array(labels.length - Object.values(rates).length).map(() => null),
+      );
+      const predictedRates = Array(labels.length - Object.values(predictions).length)
+        .map(() => null)
+        .concat(Object.values(predictions));
 
       const tmp = {
-        labels: Object.keys(rates).map((el) => moment(el).format('DD.MM')),
+        labels,
         datasets: [
           {
-            label: base,
+            label: 'Реальный курс',
             fill: false,
             borderColor: '#42A5F5',
             yAxisID: 'y',
             tension: 0.4,
-            data: Object.values(rates),
+            data: realRates,
+          },
+          {
+            label: 'Прогнозируемый курс',
+            fill: false,
+            borderColor: '#03C03C',
+            yAxisID: 'y',
+            tension: 0.4,
+            data: predictedRates,
           },
         ],
       };

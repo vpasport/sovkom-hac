@@ -58,7 +58,9 @@ const AddAccount = ({ currency = [] }) => {
   useEffect(() => {
     if (formik.values.currency) {
       CurrencyService.getRateWithTimes({ base: formik.values.currency })
-        .then((res) => setStat(res.data))
+        .then((res) => {
+          setStat(res.data);
+        })
         .catch((err) => console.error(err));
     }
   }, [formik.values.currency]);
