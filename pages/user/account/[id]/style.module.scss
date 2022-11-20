@@ -1,0 +1,71 @@
+@import '../../../../styles/variables';
+
+.main {
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+
+  & .container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 60px 0 100px;
+
+    & .content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+
+      width: 100%;
+      max-width: 1300px;
+
+      &-score {
+        width: 100%;
+        max-width: 1000px;
+      }
+
+      &-inputs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) 64px;
+        gap: 20px;
+        align-items: center;
+
+        width: 100%;
+
+        & p {
+          display: none;
+        }
+
+        &-input {
+          height: 44px;
+          border-radius: 4px;
+          box-shadow: 0 2px 13px rgb(51 51 51 / 10%);
+
+          & input {
+            border: 2px solid $light_blue;
+            border-radius: 4px;
+          }
+        }
+
+        &-button {
+          width: 44px;
+          height: 44px;
+
+          background: $light_blue;
+          border-color: $light_blue;
+          box-shadow: 0 2px 13px rgb(51 51 51 / 10%);
+        }
+      }
+
+      &-chart {
+        width: 100%;
+      }
+
+      &-transaction {
+        width: 100%;
+        max-width: 1000px;
+      }
+    }
+  }
+}
