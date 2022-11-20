@@ -28,6 +28,21 @@ const Account = ({ user, currency = [], history: historyFromServer = [] }) => {
   const [selectedCurrency, setSelectedCurrency] = useState(null);
   const [value, setValue] = useState(0);
   const [transactionLoading, setTransactionLoading] = useState(false);
+  const [stat, setStat] = useState(null);
+  const updateChart = (second, start, end) => {
+    if (second) {
+      CurrencyService.getRateWithTimes({
+        base: score.currency,
+        second,
+        start: moment(start).isValid() ? moment(start).format('YYYY-MM-DD') : undefined,
+        end: moment(end).isValid() ? moment(end).format('YYYY-MM-DD') : undefined,
+      })
+        .then((res) => {
+          setStat(res.data);
+        })
+        .catch((err) => console.error(err));
+    }
+  };
 
   const onStartDateChange = useCallback(
     ({ target: { value } }) => {
@@ -39,6 +54,7 @@ const Account = ({ user, currency = [], history: historyFromServer = [] }) => {
         setStartDate(moment(endDate).subtract(1, 'year').toDate());
         return;
       }
+      updateChart(selectedCurrency, value, endDate);
       setStartDate(value);
     },
     [endDate],
@@ -53,6 +69,7 @@ const Account = ({ user, currency = [], history: historyFromServer = [] }) => {
         setEndDate(moment(startDate).add(1, 'year').toDate());
         return;
       }
+      updateChart(selectedCurrency, startDate, value);
       setEndDate(value);
     },
     [startDate],
@@ -61,7 +78,10 @@ const Account = ({ user, currency = [], history: historyFromServer = [] }) => {
     setStartDate(null);
     setEndDate(null);
   }, []);
-  const onCurrancySelect = useCallback(({ value }) => setSelectedCurrency(value), []);
+  const onCurrancySelect = useCallback(({ value }) => {
+    updateChart(value, startDate, endDate);
+    setSelectedCurrency(value);
+  }, []);
   const onValueChange = useCallback(({ target: { value } }) => setValue(value), []);
   const onTransaction = useCallback(() => {
     setTransactionLoading(true);
@@ -144,7 +164,7 @@ const Account = ({ user, currency = [], history: historyFromServer = [] }) => {
             />
           </div>
           <div className={styles['content-chart']}>
-            <Chart />
+            <Chart data={stat} />
           </div>
           <div className={styles['content-transaction']}>
             <Transaction

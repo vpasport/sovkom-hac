@@ -17,7 +17,7 @@ const getRateWithTimes = ({
     end,
   }).toString();
 
-  return currencyApi.get(`/time-series?${params}`);
+  return currencyApi.get(`/time-series?${params}`, { timeout: 600000 });
 };
 
 export { getAvailable, getRateWithTimes };
