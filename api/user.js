@@ -41,6 +41,9 @@ const getOperationHistory = (id) =>
     headers: createHeaders({ cookie: document.cookie }),
   });
 
+const currencyOperation = (data) =>
+  userApi.post('/currencyOperation', data, { headers: createHeaders({ cookie: document.cookie }) });
+
 const banCurrency = (data) =>
   userApi.post('/banCurrency', data, { headers: createHeaders({ cookie: document.cookie }) });
 
@@ -55,5 +58,6 @@ export {
   deleteScore,
   updateScore,
   getOperationHistory,
+  currencyOperation,
   banCurrency,
 };

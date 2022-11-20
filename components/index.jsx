@@ -15,6 +15,7 @@ export { Svg } from './Svg';
 export { Table } from './Table';
 export { TextEditor, TextViewer } from './TextEditor';
 export { ToolBar } from './Toolbar';
+export { Transaction } from './Transaction';
 export { UserInfo } from './UserInfo';
 export { Users } from './Users';
 export { CreditCard } from './CreditCard';

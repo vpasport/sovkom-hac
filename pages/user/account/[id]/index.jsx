@@ -1,12 +1,160 @@
-// import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useState, useMemo, useCallback } from 'react';
+import { Calendar } from 'primereact/calendar';
+import { Button } from 'primereact/button';
+import moment from 'moment';
 
+import { Chart, Input, Account as Score, Transaction } from '@components';
 import { checkUser } from '@middlewares';
 import * as CurrencyService from '@api/currency';
-// import * as UserService from '@api/user';
+import * as UserService from '@api/user';
+import { useNotifications } from '@hooks';
 
-// import styles from './style.module.scss';
+import styles from './style.module.scss';
 
-const Account = () => 'test';
+const Account = ({ user, currency = [] }) => {
+  const router = useRouter();
+  const { pushNotifications } = useNotifications();
+
+  const dropdowItems = useMemo(
+    () => currency.map((el) => ({ value: el.currency, label: el.currency })),
+    [],
+  );
+
+  const [score, setScore] = useState(user.userScore.find((el) => el.uuid === router.query.id));
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [selectedCurrency, setSelectedCurrency] = useState(null);
+  const [value, setValue] = useState(0);
+  const [transactionLoading, setTransactionLoading] = useState(false);
+
+  const onStartDateChange = useCallback(
+    ({ target: { value } }) => {
+      if (Math.abs(moment(value).diff(moment(endDate), 'months')) > 12) {
+        pushNotifications({
+          type: 'error',
+          description: 'Период не должен превышать 1 год',
+        });
+        setStartDate(moment(endDate).subtract(1, 'year').toDate());
+        return;
+      }
+      setStartDate(value);
+    },
+    [endDate],
+  );
+  const onEndDateChange = useCallback(
+    ({ target: { value } }) => {
+      if (Math.abs(moment(value).diff(moment(startDate), 'months')) > 12) {
+        pushNotifications({
+          type: 'error',
+          description: 'Период не должен превышать 1 год',
+        });
+        setEndDate(moment(startDate).add(1, 'year').toDate());
+        return;
+      }
+      setEndDate(value);
+    },
+    [startDate],
+  );
+  const onResetDates = useCallback(() => {
+    setStartDate(null);
+    setEndDate(null);
+  }, []);
+  const onCurrancySelect = useCallback(({ value }) => setSelectedCurrency(value), []);
+  const onValueChange = useCallback(({ target: { value } }) => setValue(value), []);
+  const onTransaction = useCallback(() => {
+    setTransactionLoading(true);
+
+    UserService.currencyOperation({
+      userId: user.id,
+      fromCurrency: score.currency,
+      toCurrency: selectedCurrency,
+      value: parseFloat(value),
+    })
+      .then((res) => {
+        pushNotifications({
+          type: 'success',
+          description: 'Транзакция прошла успешно',
+        });
+        console.log(res.data.historyRes.find((el) => el.scoreUuid === score.uuid).value);
+        setScore((prev) => ({
+          ...prev,
+          value: prev.value - res.data.historyRes.find((el) => el.scoreUuid === score.uuid).value,
+        }));
+      })
+      .catch((err) => {
+        pushNotifications({
+          type: 'error',
+          header: 'Ошибка',
+          description: err.response?.data?.message,
+        });
+        console.error(err);
+      })
+      .finally(() => setTransactionLoading(false));
+  }, [score, value, selectedCurrency]);
+
+  return (
+    <div className={styles.main}>
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <h2>Действия:</h2>
+          <div className={styles['content-score']}>
+            <Score
+              key={score.uuid}
+              id={score.uuid}
+              number={score.uuid}
+              currency={score.currency}
+              value={score.value}
+              withButtons={false}
+              disableHover
+            />
+          </div>
+          <div className={styles['content-inputs']}>
+            <Input type="dropdown" items={dropdowItems} onChange={onCurrancySelect} />
+            <Calendar
+              className={styles['content-inputs-input']}
+              name="date"
+              value={startDate}
+              onChange={onStartDateChange}
+              dateFormat="dd.mm.yy"
+              placeholder="Начало периода"
+              maxDate={endDate || new Date()}
+            />
+            <Calendar
+              className={styles['content-inputs-input']}
+              name="date"
+              value={endDate}
+              onChange={onEndDateChange}
+              dateFormat="dd.mm.yy"
+              placeholder="Конец периода"
+              maxDate={new Date()}
+              minDate={startDate}
+            />
+            <Button
+              icon="pi pi-times"
+              className={styles['content-inputs-button']}
+              onClick={onResetDates}
+            />
+          </div>
+          <div className={styles['content-chart']}>
+            <Chart />
+          </div>
+          <div className={styles['content-transaction']}>
+            <Transaction
+              id={router.query.id}
+              from={score.currency}
+              to={selectedCurrency}
+              value={value}
+              loading={transactionLoading}
+              onChange={onValueChange}
+              onTransaction={onTransaction}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const getServerSideProps = (ctx) =>
   checkUser(
