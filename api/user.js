@@ -24,7 +24,8 @@ const registration = (data) => userApi.post('/registration', data);
 const getAll = (coockie = null) =>
   userApi.get('/getUsers', { headers: createHeaders({ cookie: coockie || document.cookie }) });
 
-const updateUser = (data) => userApi.post('/updateUser', data);
+const updateUser = (data) =>
+  userApi.post('/updateUser', data, { headers: createHeaders({ cookie: document.cookie }) });
 
 const createScoreByUser = (data) =>
   userApi.post('/createScoreByUser', data, { headers: createHeaders({ cookie: document.cookie }) });
@@ -40,6 +41,9 @@ const getOperationHistory = (id) =>
     headers: createHeaders({ cookie: document.cookie }),
   });
 
+const banCurrency = (data) =>
+  userApi.post('/banCurrency', data, { headers: createHeaders({ cookie: document.cookie }) });
+
 export {
   getMe,
   signIn,
@@ -51,4 +55,5 @@ export {
   deleteScore,
   updateScore,
   getOperationHistory,
+  banCurrency,
 };
