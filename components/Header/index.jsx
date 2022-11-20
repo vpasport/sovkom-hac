@@ -9,7 +9,7 @@ import styles from './style.module.scss';
 const Header = () => {
   const router = useRouter();
 
-  const isVisable = /^\/user/gm.test(router.pathname);
+  const isVisable = /^\/user|^\/admin/gm.test(router.pathname);
 
   const onLogout = useCallback(() => {
     logout();
