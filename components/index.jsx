@@ -4,6 +4,7 @@ export { Button } from './Button';
 export { CurrencyManagement } from './CurrencyManagment';
 export * as Forms from './Forms';
 export { Header } from './Header';
+export { History } from './History';
 export { CustomImage } from './Image';
 export { Input } from './Input';
 export { Island } from './Island';
