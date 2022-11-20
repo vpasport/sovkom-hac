@@ -37,7 +37,7 @@ const UsersPage = ({ users: serverSideUsers = [] }) => {
 
   const updateUser = useCallback((data) => {
     setLoading(true);
-
+    console.log('data', data);
     UserService.updateUser(data)
       .then((res) => {
         pushNotifications({

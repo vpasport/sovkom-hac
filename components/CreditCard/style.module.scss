@@ -1,0 +1,8 @@
+.credit-card {
+    border: 2px solid rgb(23 112 255) !important;
+    border-radius: 4px;
+
+    &_invalid {
+        border: none;
+    }
+}
