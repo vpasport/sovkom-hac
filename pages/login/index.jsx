@@ -82,7 +82,7 @@ const LoginPage = () => {
           <>
             <Forms.LoginForm onSubmit={(data) => onLogin(data)} loading={loading} />
             <Button type="text" onClick={() => setSignup(true)}>
-              Зарегистрироваться
+              Зарегистрироваться 1
             </Button>
           </>
         )}
